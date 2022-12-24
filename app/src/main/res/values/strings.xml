@@ -22,4 +22,5 @@
     <string name="content_nav_closed">Navigation drawer closed</string>
     <string name="challenges_fragment">Challenges Fragment</string>
     <string name="friends_fragment">Friends Fragment</string>
+    <string name="will_implement_in_the_future">Will implement in the future</string>
 </resources>
