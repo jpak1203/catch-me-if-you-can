@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.content.res.ResourcesCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -40,6 +39,7 @@ class HomeFragment : BaseFragment() {
 
     private fun initView() {
         (requireActivity() as HomeActivity).hideToolbar()
+        (requireActivity() as HomeActivity).setSupportActionBar(binding.toolbar)
         val drawerLayout = (requireActivity() as HomeActivity).findViewById<DrawerLayout>(R.id.drawer_layout)
         val drawerToggle =
             ActionBarDrawerToggle(requireActivity(),
@@ -49,8 +49,6 @@ class HomeFragment : BaseFragment() {
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        (requireActivity() as HomeActivity).title = ""
-        binding.toolbar.logo = ResourcesCompat.getDrawable(resources,
-            R.drawable.ic_launcher_foreground, null)
+        (requireActivity() as HomeActivity).title = getString(R.string.app_name)
     }
 }

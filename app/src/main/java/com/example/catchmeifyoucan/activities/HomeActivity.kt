@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.catchmeifyoucan.R
-import com.example.catchmeifyoucan.databinding.ActivityMainBinding
+import com.example.catchmeifyoucan.databinding.ActivityHomeBinding
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
     private lateinit var navigationHeader: View
     private val viewModel by viewModels<HomeActivityViewModel>()
@@ -28,7 +28,7 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         if (savedInstanceState == null) {
             navController = findNavController(R.id.fragment_navigation_controller)
         }
