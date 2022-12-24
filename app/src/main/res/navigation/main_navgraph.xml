@@ -29,4 +29,14 @@
         android:name="com.example.catchmeifyoucan.news.NewsFragment"
         android:label="@string/news_fragment" />
 
+    <fragment
+        android:id="@+id/challenges_fragment"
+        android:name="com.example.catchmeifyoucan.challenges.ChallengesFragment"
+        android:label="@string/challenges_fragment" />
+
+    <fragment
+        android:id="@+id/friends_fragment"
+        android:name="com.example.catchmeifyoucan.friends.FriendsFragment"
+        android:label="@string/friends_fragment" />
+
 </navigation>

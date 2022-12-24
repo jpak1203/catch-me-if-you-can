@@ -18,4 +18,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="logout_message">Are you sure you want to logout?</string>
+    <string name="content_nav_open">Navigation drawer open</string>
+    <string name="content_nav_closed">Navigation drawer closed</string>
+    <string name="challenges_fragment">Challenges Fragment</string>
+    <string name="friends_fragment">Friends Fragment</string>
 </resources>
