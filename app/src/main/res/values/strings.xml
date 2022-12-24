@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Catch Me If You Can</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="challenges">Challenges</string>
+    <string name="friends">Friends</string>
+    <string name="login_fragment">Login Fragment</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+    <string name="maps">Maps</string>
+    <string name="newsfeed">Newsfeed</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="home_fragment">Home Fragment</string>
+    <string name="account_fragment">Account Fragment</string>
+    <string name="maps_fragment">Maps Fragment</string>
+    <string name="news_fragment">News Fragment</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout_message">Are you sure you want to logout?</string>
+</resources>

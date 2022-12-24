@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "875758721589",
+    "project_id": "catch-me-if-you-can-77f49",
+    "storage_bucket": "catch-me-if-you-can-77f49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875758721589:android:93f922a04147fc9f0b2f7c",
+        "android_client_info": {
+          "package_name": "com.example.catchmeifyoucan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875758721589-ojj2ntidgllnprsu0lr7je9v288f075p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.catchmeifyoucan",
+            "certificate_hash": "5e03c7fb8f24aff01085b8b60251f168c4449791"
+          }
+        },
+        {
+          "client_id": "875758721589-1imm12754r25benlthnl0v4nitikjklj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADIPotdZWBk51CfMYs1QBkOeP_7aw6KTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875758721589-1imm12754r25benlthnl0v4nitikjklj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

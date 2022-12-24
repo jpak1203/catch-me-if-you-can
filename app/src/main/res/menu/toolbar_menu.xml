@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toolbar_challenges"
+        android:title="@string/challenges"
+        android:icon="@drawable/ic_challenges"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolbar_newsfeed"
+        android:title="@string/newsfeed"
+        android:icon="@drawable/ic_newsfeed"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolbar_friends"
+        android:title="@string/friends"
+        android:icon="@drawable/ic_friends"
+        app:showAsAction="ifRoom" />
+
+</menu>

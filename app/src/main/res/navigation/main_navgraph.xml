@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navgraph"
+    app:startDestination="@id/login_fragment">
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.example.catchmeifyoucan.login.LoginFragment"
+        android:label="@string/login_fragment" />
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.example.catchmeifyoucan.home.HomeFragment"
+        android:label="@string/home_fragment" />
+
+    <fragment
+        android:id="@+id/account_fragment"
+        android:name="com.example.catchmeifyoucan.account.AccountFragment"
+        android:label="@string/account_fragment" />
+
+    <fragment
+        android:id="@+id/maps_fragment"
+        android:name="com.example.catchmeifyoucan.maps.MapsFragment"
+        android:label="@string/maps_fragment" />
+
+    <fragment
+        android:id="@+id/news_fragment"
+        android:name="com.example.catchmeifyoucan.news.NewsFragment"
+        android:label="@string/news_fragment" />
+
+</navigation>
