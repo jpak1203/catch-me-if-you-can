@@ -7,13 +7,11 @@
     <string name="login_fragment">Login Fragment</string>
     <string name="home">Home</string>
     <string name="account">Account</string>
-    <string name="maps">Maps</string>
     <string name="newsfeed">Newsfeed</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="home_fragment">Home Fragment</string>
     <string name="account_fragment">Account Fragment</string>
-    <string name="maps_fragment">Maps Fragment</string>
     <string name="news_fragment">News Fragment</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -41,4 +39,7 @@
     <string name="startup_fragment">Startup Fragment</string>
     <string name="forgot_password_fragment">Forgot Password Fragment</string>
     <string name="incorrect_password_message">Password is incorrect</string>
+    <string name="runs">Runs</string>
+    <string name="run_history_fragment">Run History Fragment</string>
+    <string name="run_history">Run History</string>
 </resources>

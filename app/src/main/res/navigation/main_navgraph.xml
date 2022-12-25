@@ -59,9 +59,9 @@
         android:label="@string/account_fragment" />
 
     <fragment
-        android:id="@+id/maps_fragment"
-        android:name="com.example.catchmeifyoucan.maps.MapsFragment"
-        android:label="@string/maps_fragment" />
+        android:id="@+id/run_history_fragment"
+        android:name="com.example.catchmeifyoucan.runs.RunHistoryFragment"
+        android:label="@string/run_history_fragment" />
 
     <fragment
         android:id="@+id/news_fragment"
