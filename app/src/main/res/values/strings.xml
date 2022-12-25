@@ -23,4 +23,16 @@
     <string name="challenges_fragment">Challenges Fragment</string>
     <string name="friends_fragment">Friends Fragment</string>
     <string name="will_implement_in_the_future">Will implement in the future</string>
+    <string name="signup">Signup</string>
+    <string name="signup_fragment">Signup Fragment</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="signup_message">Create an account to start racing</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account? Login here</string>
+    <string name="this_is_a_required_field">This is a required field</string>
+    <string name="email_invalid_message">This email is invalid</string>
+    <string name="password_invalid_message">Must contain 8 characters with at least 1 uppercase and 1 lowercase letter and either 1 number or 1 special character</string>
+    <string name="confirm_password_invalid_message">Passwords must match</string>
 </resources>

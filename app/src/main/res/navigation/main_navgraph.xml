@@ -6,8 +6,13 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.example.catchmeifyoucan.login.LoginFragment"
+        android:name="com.example.catchmeifyoucan.auth.LoginFragment"
         android:label="@string/login_fragment" />
+
+    <fragment
+        android:id="@+id/signup_fragment"
+        android:name="com.example.catchmeifyoucan.auth.SignupFragment"
+        android:label="@string/signup_fragment" />
 
     <fragment
         android:id="@+id/home_fragment"

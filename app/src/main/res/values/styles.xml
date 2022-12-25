@@ -27,4 +27,31 @@
         <item name="android:drawableTint" tools:targetApi="m">?attr/colorPrimary</item>
     </style>
 
+    <style name="ButtonPrimary">
+        <item name="colorOnPrimary">?colorOnPrimary</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="background">?colorPrimary</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">?colorPrimary</item>
+    </style>
+
+    <style name="ButtonSecondary">
+        <item name="colorOnPrimary">?colorOnPrimary</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="background">?colorTertiaryContainer</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">?colorTertiaryContainer</item>
+    </style>
+
+    <style name="CustomEditTextLayout">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingTop">28dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+
 </resources>

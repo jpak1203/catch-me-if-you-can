@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan.login
+package com.example.catchmeifyoucan.auth
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
@@ -34,14 +34,14 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        binding.authButton.setOnClickListener { launchSignInFlow() }
+        binding.loginButton.setOnClickListener { launchSignInFlow() }
 
+        initView()
         return binding.root
     }
 
@@ -63,5 +63,11 @@ class LoginFragment : Fragment() {
     private fun ActivityResult.checkResultAndExecute(block: ActivityResult.() -> Unit) =
         if (resultCode == RESULT_OK) runCatching(block)
         else Result.failure(Exception("Something went wrong"))
+
+    private fun initView() {
+        binding.signupButton.setOnClickListener {
+            findNavController().navigate(R.id.signup_fragment)
+        }
+    }
 
 }

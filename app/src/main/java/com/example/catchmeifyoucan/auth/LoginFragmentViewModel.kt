@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan.login
+package com.example.catchmeifyoucan.auth
 
 import androidx.lifecycle.ViewModel
 
