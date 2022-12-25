@@ -44,6 +44,10 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 
     private fun initView() {
         navigationHeader = binding.navigationView.getHeaderView(0)
+        navigationHeader.setOnClickListener {
+            navController.navigate(R.id.account_fragment)
+            binding.drawerLayout.close()
+        }
     }
 
     private fun setNavigation() {
@@ -62,9 +66,6 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
         when (item.itemId) {
             R.id.navigation_drawer_home -> {
                 navController.navigate(R.id.home_fragment)
-            }
-            R.id.navigation_drawer_account -> {
-                navController.navigate(R.id.account_fragment)
             }
             R.id.navigation_drawer_maps -> {
                 navController.navigate(R.id.maps_fragment)

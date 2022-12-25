@@ -9,10 +9,6 @@
             android:title="@string/home"
             android:icon="@drawable/ic_home"/>
         <item
-            android:id="@+id/navigation_drawer_account"
-            android:title="@string/account"
-            android:icon="@drawable/ic_account"/>
-        <item
             android:id="@+id/navigation_drawer_maps"
             android:title="@string/maps"
             android:icon="@drawable/ic_maps"/>
