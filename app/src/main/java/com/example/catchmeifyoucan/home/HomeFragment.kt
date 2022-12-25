@@ -50,5 +50,6 @@ class HomeFragment : BaseFragment() {
         drawerToggle.syncState()
 
         (requireActivity() as HomeActivity).title = getString(R.string.app_name)
+        (requireActivity() as HomeActivity).setUserEmail()
     }
 }

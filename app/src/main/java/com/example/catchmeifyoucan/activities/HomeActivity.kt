@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -40,6 +41,15 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 
     private fun subscribe() {
         binding.navigationView.setNavigationItemSelectedListener(this)
+        viewModel.email.observe(this) {
+            val headerEmailTextView = binding.navigationView.getHeaderView(0)
+                .findViewById<TextView>(R.id.navigation_drawer_email)
+            if (it.isNotEmpty()) {
+                headerEmailTextView.text = it
+            } else {
+                headerEmailTextView.text = ""
+            }
+        }
     }
 
     private fun initView() {
@@ -56,6 +66,10 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
         val graph = inflater.inflate(R.navigation.main_navgraph)
         graph.setStartDestination(viewModel.getNavigationStartDestination())
         navHostFragment.navController.graph = graph
+    }
+
+    fun setUserEmail() {
+        viewModel.setUserEmail()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
