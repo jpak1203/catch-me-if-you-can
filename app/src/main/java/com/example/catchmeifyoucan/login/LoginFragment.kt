@@ -1,22 +1,18 @@
 package com.example.catchmeifyoucan.login
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.catchmeifyoucan.activities.MainActivity
+import androidx.navigation.fragment.findNavController
+import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import timber.log.Timber
 
 class LoginFragment : Fragment() {
@@ -30,8 +26,7 @@ class LoginFragment : Fragment() {
 
     private val registerForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         result.checkResultAndExecute {
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.home_fragment)
         }.onFailure { e -> Timber.e(TAG, "Error: ${e.message}") }
     }
 
@@ -59,6 +54,7 @@ class LoginFragment : Fragment() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+            .setIsSmartLockEnabled(false)
             .build()
 
         registerForResult.launch(signInIntent)
