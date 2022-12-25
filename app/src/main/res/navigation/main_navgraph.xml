@@ -2,22 +2,56 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_navgraph"
-    app:startDestination="@id/login_fragment">
+    app:startDestination="@id/startup_fragment">
+
+    <fragment
+        android:id="@+id/startup_fragment"
+        android:name="com.example.catchmeifyoucan.StartupFragment"
+        android:label="@string/startup_fragment" />
 
     <fragment
         android:id="@+id/login_fragment"
         android:name="com.example.catchmeifyoucan.auth.LoginFragment"
-        android:label="@string/login_fragment" />
+        android:label="@string/login_fragment" >
+
+        <action
+            android:id="@+id/action_login_fragment_to_home_fragment"
+            app:destination="@id/home_fragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navgraph"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
     <fragment
         android:id="@+id/signup_fragment"
         android:name="com.example.catchmeifyoucan.auth.SignupFragment"
-        android:label="@string/signup_fragment" />
+        android:label="@string/signup_fragment">
+
+        <action
+            android:id="@+id/action_signup_fragment_to_home_fragment"
+            app:destination="@id/home_fragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navgraph"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgot_password_fragment"
+        android:name="com.example.catchmeifyoucan.auth.ForgetPasswordFragment"
+        android:label="@string/forgot_password_fragment" />
 
     <fragment
         android:id="@+id/home_fragment"
         android:name="com.example.catchmeifyoucan.home.HomeFragment"
-        android:label="@string/home_fragment" />
+        android:label="@string/home_fragment" >
+
+        <action
+            android:id="@+id/action_home_fragment_to_startup_fragment"
+            app:destination="@id/startup_fragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navgraph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/account_fragment"

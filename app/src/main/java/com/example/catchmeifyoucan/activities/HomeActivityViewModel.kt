@@ -10,7 +10,7 @@ class HomeActivityViewModel: ViewModel() {
         return if (FirebaseAuth.getInstance().currentUser != null) {
             R.id.home_fragment
         } else {
-            R.id.login_fragment
+            R.id.startup_fragment
         }
     }
 }

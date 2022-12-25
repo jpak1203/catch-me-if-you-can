@@ -87,16 +87,6 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/forgot_password_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="?attr/selectableItemBackground"
-            android:text="Forgot Password?"
-            app:layout_constraintStart_toStartOf="@id/confirm_password_text_input_layout"
-            app:layout_constraintTop_toBottomOf="@id/confirm_password_text_input_layout"/>
-
         <Button
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
@@ -107,7 +97,7 @@
             app:cornerRadius="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgot_password_text_view"/>
+            app:layout_constraintTop_toBottomOf="@id/confirm_password_text_input_layout"/>
 
         <TextView
             android:id="@+id/login_nav_text"

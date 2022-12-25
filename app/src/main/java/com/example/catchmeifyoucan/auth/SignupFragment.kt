@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentSignupBinding
+import com.example.catchmeifyoucan.utils.ValidatorUtil
 import com.example.catchmeifyoucan.utils.ValidatorUtil.setEditTextErrorState
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthException
 import timber.log.Timber
 
 class SignupFragment : Fragment() {
@@ -93,17 +93,10 @@ class SignupFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Timber.i(TAG, "createUserWithEmail:success")
-                    findNavController().navigate(R.id.home_fragment)
+                    findNavController().navigate(R.id.action_signup_fragment_to_home_fragment)
                 } else {
-                    try {
-                        throw task.exception!!
-                    } catch(e: FirebaseAuthUserCollisionException) {
-                        Timber.e(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(requireContext(), "User already exists",
-                            Toast.LENGTH_SHORT).show()
-                    } catch(e: Exception) {
-                        Timber.e(TAG, e.message)
-                    }
+                    val errorCode = (task.exception as FirebaseAuthException).errorCode
+                    ValidatorUtil.firebaseErrorCheck(requireContext(), errorCode)
                 }
             }
     }

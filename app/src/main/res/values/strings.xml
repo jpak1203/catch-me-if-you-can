@@ -35,4 +35,10 @@
     <string name="email_invalid_message">This email is invalid</string>
     <string name="password_invalid_message">Must contain 8 characters with at least 1 uppercase and 1 lowercase letter and either 1 number or 1 special character</string>
     <string name="confirm_password_invalid_message">Passwords must match</string>
+    <string name="login_message">Login to your account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="dont_have_an_account">Don\'t have an account? Signup here</string>
+    <string name="startup_fragment">Startup Fragment</string>
+    <string name="forgot_password_fragment">Forgot Password Fragment</string>
+    <string name="incorrect_password_message">Password is incorrect</string>
 </resources>
