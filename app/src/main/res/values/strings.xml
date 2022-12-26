@@ -42,4 +42,5 @@
     <string name="runs">Runs</string>
     <string name="run_history_fragment">Run History Fragment</string>
     <string name="run_history">Run History</string>
+    <string name="run">Run</string>
 </resources>

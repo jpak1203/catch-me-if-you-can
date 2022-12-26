@@ -23,6 +23,21 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/run_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/run"
+            android:src="@drawable/ic_runs"
+            android:layout_gravity="bottom|center" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
