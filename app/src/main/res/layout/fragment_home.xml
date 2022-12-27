@@ -23,20 +23,49 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motion_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="2dp"
+            app:layoutDescription="@xml/fragment_home_scene">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/run_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/run"
+                app:overlay="false"
+                android:background="@drawable/rounded_background"
+                android:shadowColor="@color/onyx"
+                android:src="@drawable/ic_runs"
+                app:altSrc="@drawable/ic_close" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/race_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:backgroundTint="?colorPrimary"
+                android:text="@string/race"
+                android:src="@drawable/ic_race" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/record_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/record"
+                android:src="@drawable/ic_record" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
         <fragment
             android:id="@+id/map"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/run_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/run"
-            android:src="@drawable/ic_runs"
-            android:layout_gravity="bottom|center" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

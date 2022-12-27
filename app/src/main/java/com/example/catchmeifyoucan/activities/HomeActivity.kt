@@ -18,6 +18,8 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import timber.log.Timber
+import timber.log.Timber.Forest.plant
+
 
 class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 

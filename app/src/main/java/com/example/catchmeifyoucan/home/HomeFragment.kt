@@ -40,11 +40,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
-        private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
-        private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
-        private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
-        private const val LOCATION_PERMISSION_INDEX = 0
-        private const val BACKGROUND_LOCATION_PERMISSION_INDEX = 1
         const val ACTION_GEOFENCE_EVENT = "ACTION_GEOFENCE_EVENT"
         private const val DEFAULT_ZOOM = 15f
         const val DEFAULT_GEOFENCE_RADIUS = 5f
@@ -56,6 +51,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var cancellationSource: CancellationTokenSource
     private lateinit var map: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
+    private var runButtonMotionStarted = false
 
     private val geoPendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
@@ -82,6 +78,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         geofencingClient = LocationServices.getGeofencingClient(requireActivity())
         fusedLocationProviderClient =
@@ -92,7 +89,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         initView()
-        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         return binding.root
     }
 
@@ -120,6 +116,17 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
 
         (requireActivity() as HomeActivity).title = getString(R.string.app_name)
         (requireActivity() as HomeActivity).setUserEmail()
+
+        binding.runButton.setOnClickListener {
+            if (runButtonMotionStarted) {
+                binding.motionLayout.transitionToStart()
+                runButtonMotionStarted = false
+            } else {
+                binding.motionLayout.transitionToEnd()
+                runButtonMotionStarted = true
+                checkLocationPermissions()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -159,7 +166,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
                     val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution.intentSender).build()
                     registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
                         if (result != null) {
-                            Timber.tag(TAG).d("${result.resultCode}")
+                            Timber.i("${result.resultCode}")
                             checkDeviceLocationSettings(false)
                         }
                     }.launch(intentSenderRequest)
@@ -177,7 +184,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         }
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
-                Timber.tag(TAG).d ("location settings response success")
+                Timber.i("location settings response success")
 //                if (viewModel.validateEnteredData(reminderData)) {
 //                    viewModel.validateAndSaveReminder(reminderData)
 //                    saveGeofenceForLocationReminder(reminderData)
@@ -190,7 +197,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         if (approveForegroundAndBackgroundLocation(requireContext())) {
             checkDeviceLocationSettings()
         } else {
-            requestForegroundLocationPermissions()
+            requestForegroundAndBackgroundLocationPermissions()
         }
     }
 
@@ -203,7 +210,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         requestPermissionLauncher.launch(permissionsArray)
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     private fun requestForegroundAndBackgroundLocationPermissions() {
         if (approveForegroundAndBackgroundLocation(requireContext()))
             return

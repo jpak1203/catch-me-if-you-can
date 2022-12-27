@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.catchmeifyoucan"
-        minSdk 19
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -59,6 +59,23 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
+    // Dagger 2
+    // https://github.com/google/dagger
+    implementation 'com.google.dagger:dagger:2.44.2'
+    implementation 'com.google.dagger:dagger-android:2.44.2'
+    implementation 'com.google.dagger:dagger-android-support:2.44.2'
+    kapt 'com.google.dagger:dagger-compiler:2.44.2'
+    kapt 'com.google.dagger:dagger-android-processor:2.44.2'
+    // required for our dagger setup
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.21'
+
+    // Glide
+    // https://github.com/bumptech/glide
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
+    implementation ("com.github.bumptech.glide:glide:4.14.2") {
+        exclude group: "com.android.support"
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
