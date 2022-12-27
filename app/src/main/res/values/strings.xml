@@ -43,4 +43,7 @@
     <string name="run_history_fragment">Run History Fragment</string>
     <string name="run_history">Run History</string>
     <string name="run">Run</string>
+    <string name="location_required_error">Location services must be enabled to use the app</string>
+    <string name="permission_denied_explanation">You need to grant location permission in order to select the location.</string>
+    <string name="settings">Settings</string>
 </resources>
