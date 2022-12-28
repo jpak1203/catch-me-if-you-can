@@ -3,6 +3,7 @@ package com.example.catchmeifyoucan
 import android.app.Application
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
+import com.example.catchmeifyoucan.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -21,6 +22,7 @@ class MyApplication : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
+        DaggerAppComponent.builder().application(this).build().inject(this)
         if (BuildConfig.DEBUG) {
             val logger = Timber.DebugTree()
             plant(logger)

@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
+    <data>
+        <variable
+            name="homeFragmentViewModel"
+            type="com.example.catchmeifyoucan.ui.home.HomeFragmentViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

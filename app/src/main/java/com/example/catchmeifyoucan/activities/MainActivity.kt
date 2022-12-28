@@ -1,11 +1,11 @@
 package com.example.catchmeifyoucan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import com.example.catchmeifyoucan.R
+import dagger.android.support.DaggerAppCompatActivity
 
-abstract class MainActivity: AppCompatActivity() {
+abstract class MainActivity: DaggerAppCompatActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName

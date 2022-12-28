@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan
+package com.example.catchmeifyoucan.ui
 
 import android.view.Menu
 import android.view.MenuInflater
@@ -6,8 +6,10 @@ import android.view.MenuItem
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.catchmeifyoucan.R
+import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment: Fragment(), MenuProvider {
+abstract class BaseFragment: DaggerFragment(), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.toolbar_menu, menu)

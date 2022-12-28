@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan.auth
+package com.example.catchmeifyoucan.ui.challenges
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ForgetPasswordFragemtn.newInstance] factory method to
+ * Use the [ChallengesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ForgetPasswordFragment : Fragment() {
+class ChallengesFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class ForgetPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forget_password_fragemtn, container, false)
+        return inflater.inflate(R.layout.fragment_challenges, container, false)
     }
 
     companion object {
@@ -45,12 +45,12 @@ class ForgetPasswordFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ForgetPasswordFragemtn.
+         * @return A new instance of fragment ChallengesFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ForgetPasswordFragment().apply {
+            ChallengesFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,19 +21,24 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
+import javax.inject.Inject
 
 
 class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
     private lateinit var navigationHeader: View
-    private val viewModel by viewModels<HomeActivityViewModel>()
+    private lateinit var viewModel: HomeActivityViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeActivityViewModel::class.java]
         if (savedInstanceState == null) {
             navController = findNavController(R.id.fragment_navigation_controller)
         }

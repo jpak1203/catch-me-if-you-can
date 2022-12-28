@@ -1,27 +1,25 @@
-package com.example.catchmeifyoucan.home
+package com.example.catchmeifyoucan.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentSender
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import com.example.catchmeifyoucan.BaseFragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.activities.HomeActivity
 import com.example.catchmeifyoucan.databinding.FragmentHomeBinding
 import com.example.catchmeifyoucan.geofence.GeofenceBroadcastReceiver
+import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundAndBackgroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.runningQOrLater
@@ -35,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
+import javax.inject.Inject
 
 class HomeFragment : BaseFragment(), OnMapReadyCallback {
 
@@ -45,8 +44,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         const val DEFAULT_GEOFENCE_RADIUS = 5f
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel by viewModels<HomeFragmentViewModel>()
+    private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var cancellationSource: CancellationTokenSource
     private lateinit var map: GoogleMap
@@ -75,7 +77,9 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeFragmentViewModel::class.java]
         binding.apply {
+            homeFragmentViewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)

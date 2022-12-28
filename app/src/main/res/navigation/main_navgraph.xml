@@ -6,12 +6,12 @@
 
     <fragment
         android:id="@+id/startup_fragment"
-        android:name="com.example.catchmeifyoucan.StartupFragment"
+        android:name="com.example.catchmeifyoucan.ui.StartupFragment"
         android:label="@string/startup_fragment" />
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.example.catchmeifyoucan.auth.LoginFragment"
+        android:name="com.example.catchmeifyoucan.ui.auth.LoginFragment"
         android:label="@string/login_fragment" >
 
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/signup_fragment"
-        android:name="com.example.catchmeifyoucan.auth.SignupFragment"
+        android:name="com.example.catchmeifyoucan.ui.auth.SignupFragment"
         android:label="@string/signup_fragment">
 
         <action
@@ -37,12 +37,12 @@
 
     <fragment
         android:id="@+id/forgot_password_fragment"
-        android:name="com.example.catchmeifyoucan.auth.ForgetPasswordFragment"
+        android:name="com.example.catchmeifyoucan.ui.auth.ForgetPasswordFragment"
         android:label="@string/forgot_password_fragment" />
 
     <fragment
         android:id="@+id/home_fragment"
-        android:name="com.example.catchmeifyoucan.home.HomeFragment"
+        android:name="com.example.catchmeifyoucan.ui.home.HomeFragment"
         android:label="@string/home_fragment" >
 
         <action
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/account_fragment"
-        android:name="com.example.catchmeifyoucan.account.AccountFragment"
+        android:name="com.example.catchmeifyoucan.ui.account.AccountFragment"
         android:label="@string/account_fragment" />
 
     <fragment
@@ -65,17 +65,17 @@
 
     <fragment
         android:id="@+id/news_fragment"
-        android:name="com.example.catchmeifyoucan.news.NewsFragment"
+        android:name="com.example.catchmeifyoucan.ui.news.NewsFragment"
         android:label="@string/news_fragment" />
 
     <fragment
         android:id="@+id/challenges_fragment"
-        android:name="com.example.catchmeifyoucan.challenges.ChallengesFragment"
+        android:name="com.example.catchmeifyoucan.ui.challenges.ChallengesFragment"
         android:label="@string/challenges_fragment" />
 
     <fragment
         android:id="@+id/friends_fragment"
-        android:name="com.example.catchmeifyoucan.friends.FriendsFragment"
+        android:name="com.example.catchmeifyoucan.ui.friends.FriendsFragment"
         android:label="@string/friends_fragment" />
 
 </navigation>

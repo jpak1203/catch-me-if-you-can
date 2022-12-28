@@ -1,29 +1,33 @@
-package com.example.catchmeifyoucan.auth
+package com.example.catchmeifyoucan.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentSignupBinding
+import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.utils.ValidatorUtil
 import com.example.catchmeifyoucan.utils.ValidatorUtil.setEditTextErrorState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import timber.log.Timber
+import javax.inject.Inject
 
-class SignupFragment : Fragment() {
+class SignupFragment : BaseFragment() {
 
     companion object {
         private val TAG = SignupFragment::class.java.simpleName
     }
 
-    private val viewModel by viewModels<SignupFragmentViewModel>()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: FragmentSignupBinding
+    private lateinit var viewModel: SignupFragmentViewModel
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -31,6 +35,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSignupBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, viewModelFactory)[SignupFragmentViewModel::class.java]
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }

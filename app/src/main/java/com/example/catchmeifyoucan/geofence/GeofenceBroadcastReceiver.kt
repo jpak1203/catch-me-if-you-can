@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.catchmeifyoucan.R
-import com.example.catchmeifyoucan.home.HomeFragment
+import com.example.catchmeifyoucan.ui.home.HomeFragment
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofenceStatusCodes
 import com.google.android.gms.location.GeofencingEvent

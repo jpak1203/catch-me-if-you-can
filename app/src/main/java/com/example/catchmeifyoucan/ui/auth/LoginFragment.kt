@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan.auth
+package com.example.catchmeifyoucan.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,25 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentLoginBinding
+import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.utils.ValidatorUtil
 import com.example.catchmeifyoucan.utils.ValidatorUtil.setEditTextErrorState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import timber.log.Timber
+import javax.inject.Inject
 
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
     companion object {
         private val TAG = LoginFragment::class.java.simpleName
     }
 
-    private val viewModel by viewModels<LoginFragmentViewModel>()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var viewModel: LoginFragmentViewModel
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -32,6 +37,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, viewModelFactory)[LoginFragmentViewModel::class.java]
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }

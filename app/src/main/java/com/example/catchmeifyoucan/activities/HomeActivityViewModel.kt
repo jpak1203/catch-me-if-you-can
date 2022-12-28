@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.catchmeifyoucan.R
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class HomeActivityViewModel: ViewModel() {
+class HomeActivityViewModel @Inject constructor(): ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String>

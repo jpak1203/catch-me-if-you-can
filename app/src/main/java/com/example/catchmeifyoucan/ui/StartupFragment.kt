@@ -1,4 +1,4 @@
-package com.example.catchmeifyoucan
+package com.example.catchmeifyoucan.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentStartupBinding
 
 class StartupFragment : Fragment() {
