@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.catchmeifyoucan.utils.ValidatorUtil
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class SignupFragmentViewModel @Inject constructor(): ViewModel() {
+class SignupFragmentViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String>
@@ -56,5 +57,9 @@ class SignupFragmentViewModel @Inject constructor(): ViewModel() {
                 && ValidatorUtil.validConfirmPassword(password.value, confirmPassword.value)
     }
 
+    fun createAccount(uid: String): Single<Unit> {
+        val email = email.value ?: ""
+        return userRepository.createNewUser(uid, UserModel(email, null))
+    }
 
 }

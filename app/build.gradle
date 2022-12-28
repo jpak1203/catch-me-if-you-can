@@ -20,9 +20,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://catch-me-if-you-can-77f49-default-rtdb.firebaseio.com/\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://catch-me-if-you-can-77f49-default-rtdb.firebaseio.com/\""
         }
     }
     compileOptions {
@@ -63,6 +67,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.google.firebase:firebase-database-ktx'
 
     // Dagger 2
     // https://github.com/google/dagger
@@ -89,6 +94,27 @@ dependencies {
     // Android jetpack architecture: viewmodel
     // https://mvnrepository.com/artifact/android.arch.lifecycle/viewmodel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    // Retrofit 2
+    // https://github.com/square/retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+
+    // RxJava 3.0: reactive programming/concurrency library
+    // https://github.com/ReactiveX/RxJava
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    // https://github.com/ReactiveX/RxKotlin
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
+    //https://github.com/ReactiveX/RxAndroid
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    // https://github.com/square/retrofit/tree/master/retrofit-adapters/rxjava3
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    // OkHttpClient Logging interceptor
+    // https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -54,4 +54,11 @@
         <item name="android:imeOptions">actionNext</item>
     </style>
 
+    <style name="TransparentLoadingDialog" parent="Theme.CatchMeIfYouCan">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

@@ -9,11 +9,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.FragmentSignupBinding
+import com.example.catchmeifyoucan.rxjava.LoadingDialog
 import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.utils.ValidatorUtil
 import com.example.catchmeifyoucan.utils.ValidatorUtil.setEditTextErrorState
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -98,6 +102,21 @@ class SignupFragment : BaseFragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Timber.i(TAG, "createUserWithEmail:success")
+                    viewModel.createAccount(task.result.user!!.uid)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribeWith(object : LoadingDialog<Unit>(requireActivity()) {
+                            override fun onError(e: Throwable) {
+                                super.onError(e)
+                                MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(getString(R.string.error))
+                                    .setMessage(getString(R.string.create_account_error_message))
+                                    .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                            }
+                        })
                     findNavController().navigate(R.id.action_signup_fragment_to_home_fragment)
                 } else {
                     val errorCode = (task.exception as FirebaseAuthException).errorCode

@@ -2,10 +2,7 @@ package com.example.catchmeifyoucan.dagger
 
 import android.app.Application
 import com.example.catchmeifyoucan.MyApplication
-import com.example.catchmeifyoucan.dagger.modules.ActivityModule
-import com.example.catchmeifyoucan.dagger.modules.ApplicationModule
-import com.example.catchmeifyoucan.dagger.modules.FragmentModule
-import com.example.catchmeifyoucan.dagger.modules.ViewModelModule
+import com.example.catchmeifyoucan.dagger.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,7 +15,8 @@ import javax.inject.Singleton
     ApplicationModule::class,
     ActivityModule::class,
     FragmentModule::class,
-    ViewModelModule::class,])
+    ViewModelModule::class,
+    NetworkModule::class,])
 interface AppComponent: AndroidInjector<MyApplication> {
 
     companion object {
