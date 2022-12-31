@@ -10,7 +10,7 @@
             android:icon="@drawable/ic_home"/>
         <item
             android:id="@+id/navigation_drawer_runs"
-            android:title="@string/run_history"
+            android:title="@string/runs"
             android:icon="@drawable/ic_runs"/>
         <item
             android:id="@+id/navigation_drawer_news"

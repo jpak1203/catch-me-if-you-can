@@ -15,11 +15,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.activities.HomeActivity
 import com.example.catchmeifyoucan.databinding.FragmentHomeBinding
 import com.example.catchmeifyoucan.geofence.GeofenceBroadcastReceiver
 import com.example.catchmeifyoucan.ui.BaseFragment
+import com.example.catchmeifyoucan.ui.runs.RunsModel
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundAndBackgroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.runningQOrLater
@@ -54,12 +56,15 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
     private var runButtonMotionStarted = false
+    private var recordButtonMotionStarted = false
 
     private val geoPendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
         intent.action = ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+
+    private val run = RunsModel(time = 0.00)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -122,14 +127,37 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         (requireActivity() as HomeActivity).setUserEmail()
 
         binding.runButton.setOnClickListener {
-            if (runButtonMotionStarted) {
-                binding.motionLayout.transitionToStart()
-                runButtonMotionStarted = false
+            runButtonMotionStarted = if (runButtonMotionStarted) {
+                binding.motionLayout.setTransition(R.id.run_end, R.id.run_start).run {
+                    binding.motionLayout.transitionToStart()
+                    false
+                }
             } else {
-                binding.motionLayout.transitionToEnd()
-                runButtonMotionStarted = true
-                checkLocationPermissions()
+                binding.motionLayout.setTransition(R.id.run_start, R.id.run_end).run {
+                    binding.motionLayout.transitionToEnd()
+                    checkLocationPermissions()
+                    true
+                }
             }
+        }
+
+        binding.recordButton.setOnClickListener {
+            recordButtonMotionStarted = if (recordButtonMotionStarted) {
+                binding.motionLayout.setTransition(R.id.record_end, R.id.record_start).run {
+                    binding.motionLayout.transitionToStart()
+                    false
+                }
+            } else {
+                binding.motionLayout.setTransition(R.id.record_start, R.id.record_end).run {
+                    binding.motionLayout.transitionToEnd()
+                    true
+                }
+            }
+//            saveGeofenceForLocationReminder(run)
+        }
+
+        binding.raceButton.setOnClickListener {
+            findNavController().navigate(R.id.run_history_fragment)
         }
     }
 
@@ -150,6 +178,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             locationResult.addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful && task.result != null) {
                     val latLng = LatLng(task.result.latitude, task.result.longitude)
+                    run.start_lat = task.result.latitude
+                    run.start_lng = task.result.longitude
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM))
                 }
             }
@@ -189,10 +219,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
                 Timber.i("location settings response success")
-//                if (viewModel.validateEnteredData(reminderData)) {
-//                    viewModel.validateAndSaveReminder(reminderData)
-//                    saveGeofenceForLocationReminder(reminderData)
-//                }
             }
         }
     }
@@ -221,5 +247,28 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         if (runningQOrLater) permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
 
         requestPermissionLauncher.launch(permissionsArray)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun saveGeofenceForLocationReminder(run: RunsModel) {
+        val geofence = Geofence.Builder()
+            .setRequestId(run.id)
+            .setCircularRegion(
+                run.start_lat!!,
+                run.start_lng!!,
+                DEFAULT_GEOFENCE_RADIUS
+            )
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+            .build()
+
+        val geofencingRequest = GeofencingRequest.Builder()
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+            .addGeofence(geofence)
+            .build()
+
+        if (approveForegroundLocation(requireContext())) {
+            geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
+        }
     }
 }

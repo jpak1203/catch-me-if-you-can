@@ -1,9 +1,10 @@
 package com.example.catchmeifyoucan.ui.runs
 
 import com.squareup.moshi.Json
+import java.util.*
 
 data class RunsModel(
-    @field:Json(name="id") val id: Int,
+    @field:Json(name="id") val id: String = UUID.randomUUID().toString(),
     @field:Json(name="start_lat") var start_lat: Double = 0.0,
     @field:Json(name = "start_lng") var start_lng: Double = 0.0,
     @field:Json(name = "end_lat") var end_lat: Double = 0.0,

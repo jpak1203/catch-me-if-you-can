@@ -43,7 +43,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/run"
                 app:overlay="false"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/run_background"
                 android:shadowColor="@color/onyx"
                 android:src="@drawable/ic_runs"
                 app:altSrc="@drawable/ic_close" />
@@ -57,13 +57,28 @@
                 android:text="@string/race"
                 android:src="@drawable/ic_race" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/record_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/record"
-                android:src="@drawable/ic_record" />
+                app:overlay="false"
+                android:background="@drawable/record_background"
+                android:shadowColor="@color/onyx"
+                android:src="@drawable/ic_record"
+                app:altSrc="@drawable/ic_stop" />
+
+            <TextView
+                android:id="@+id/record_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:letterSpacing="1.02"
+                android:textColor="?colorOnPrimary"
+                android:text="0:00"
+                android:background="@drawable/text_view_rounded_corner" />
+
 
         </androidx.constraintlayout.motion.widget.MotionLayout>
 
