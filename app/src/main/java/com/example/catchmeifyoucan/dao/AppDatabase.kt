@@ -9,14 +9,13 @@ data class Runs(
     @ColumnInfo(name = "start_lng") var start_lng: Double = 0.0,
     @ColumnInfo(name = "end_lat") var end_lat: Double = 0.0,
     @ColumnInfo(name = "end_lng") var end_lng: Double = 0.0,
-    @ColumnInfo(name ="time") val time: Long
+    @ColumnInfo(name ="time") val time: Double
 )
 
 @Entity(tableName = "users")
 data class Users(
     @PrimaryKey val uid: String,
     @ColumnInfo(name = "email") val email: String,
-    @ColumnInfo(name = "runs") val runs: Runs
 )
 
 @Dao

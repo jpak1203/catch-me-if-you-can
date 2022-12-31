@@ -115,6 +115,8 @@ dependencies {
     // OkHttpClient Logging interceptor
     // https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation "com.google.android.gms:play-services-games-v2:17.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'
