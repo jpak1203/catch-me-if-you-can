@@ -51,4 +51,8 @@
     <string name="create_account_error_message">A user with this email may already exist</string>
     <string name="debug_utils_status_code_formatted">Status Code: %1$s</string>
     <string name="stop">Stop</string>
+    <string name="nice_run">Nice Run!</string>
+    <string name="save_run_message">Do you want to save this run?</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

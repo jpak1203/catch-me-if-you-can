@@ -6,6 +6,9 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,17 +36,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
+import java.lang.String.*
+import java.util.*
 import javax.inject.Inject
+
 
 class HomeFragment : BaseFragment(), OnMapReadyCallback {
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
         const val ACTION_GEOFENCE_EVENT = "ACTION_GEOFENCE_EVENT"
-        private const val DEFAULT_ZOOM = 15f
-        const val DEFAULT_GEOFENCE_RADIUS = 5f
+        private const val DEFAULT_ZOOM = 20f
     }
 
     @Inject
@@ -55,6 +61,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var cancellationSource: CancellationTokenSource
     private lateinit var map: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
+    private lateinit var mHandler: Handler
     private var runButtonMotionStarted = false
     private var recordButtonMotionStarted = false
 
@@ -64,7 +71,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private val run = RunsModel(time = 0.00)
+    private val run = RunsModel()
+    private var seconds = 0
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -111,6 +119,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         (requireActivity() as HomeActivity).unlockNavigationDrawer()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        stopTimer()
+    }
+
     private fun initView() {
         (requireActivity() as HomeActivity).hideToolbar()
         (requireActivity() as HomeActivity).setSupportActionBar(binding.toolbar)
@@ -144,16 +157,30 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         binding.recordButton.setOnClickListener {
             recordButtonMotionStarted = if (recordButtonMotionStarted) {
                 binding.motionLayout.setTransition(R.id.record_end, R.id.record_start).run {
+                    stopTimer()
                     binding.motionLayout.transitionToStart()
+                    getEndLocationLatLng()
                     false
                 }
             } else {
                 binding.motionLayout.setTransition(R.id.record_start, R.id.record_end).run {
                     binding.motionLayout.transitionToEnd()
+                    object : CountDownTimer(3000, 1000) {
+
+                        @SuppressLint("SetTextI18n")
+                        override fun onTick(millisUntilFinished: Long) {
+                            binding.countdownOverlay.visibility = View.VISIBLE
+                            binding.countdownOverlay.text = ((millisUntilFinished+1000)/1000).toString()
+                        }
+                        override fun onFinish() {
+                            binding.countdownOverlay.visibility = View.GONE
+                            startTimer()
+                        }
+                    }.start()
+                    getStartLocationLatLng()
                     true
                 }
             }
-//            saveGeofenceForLocationReminder(run)
         }
 
         binding.raceButton.setOnClickListener {
@@ -178,13 +205,26 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             locationResult.addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful && task.result != null) {
                     val latLng = LatLng(task.result.latitude, task.result.longitude)
-                    run.start_lat = task.result.latitude
-                    run.start_lng = task.result.longitude
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM))
                 }
             }
         } else {
             requestForegroundLocationPermissions()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getStartLocationLatLng() {
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener {
+            viewModel.setStartLatLng(LatLng(it.result.latitude, it.result.longitude))
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getEndLocationLatLng() {
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener {
+            viewModel.setEndLatLng(LatLng(it.result.latitude, it.result.longitude))
+            createRunData()
         }
     }
 
@@ -249,26 +289,49 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         requestPermissionLauncher.launch(permissionsArray)
     }
 
-    @SuppressLint("MissingPermission")
-    private fun saveGeofenceForLocationReminder(run: RunsModel) {
-        val geofence = Geofence.Builder()
-            .setRequestId(run.id)
-            .setCircularRegion(
-                run.start_lat!!,
-                run.start_lng!!,
-                DEFAULT_GEOFENCE_RADIUS
-            )
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-            .build()
+    private fun startTimer() {
+        mHandler = Handler(Looper.getMainLooper())
+        mStatusChecker.run()
+    }
 
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
+    private fun stopTimer() {
+        viewModel.setRunTime(seconds)
+        seconds = 0
+        mHandler.removeCallbacks(mStatusChecker)
+    }
 
-        if (approveForegroundLocation(requireContext())) {
-            geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
+    private var mStatusChecker: Runnable = object : Runnable {
+        override fun run() {
+            try {
+                val hours: Int = seconds / 3600
+                val minutes: Int = seconds % 3600 / 60
+                val secs: Int = seconds % 60
+
+                val time: String = format(
+                    Locale.getDefault(),
+                    "%d:%02d:%02d", hours,
+                    minutes, secs
+                )
+                binding.recordTime.text = time
+                seconds++
+            } finally {
+                mHandler.postDelayed(this, 1000)
+            }
         }
+    }
+
+    private fun createRunData() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.nice_run))
+            .setMessage(getString(R.string.save_run_message))
+            .setCancelable(false)
+            .setPositiveButton(R.string.save) { _, _ ->
+                Timber.i("${viewModel.runData.value}")
+                viewModel.saveRun()
+            }
+            .setNegativeButton(R.string.delete) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

@@ -74,9 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:letterSpacing="1.02"
+                android:letterSpacing="1.01"
                 android:textColor="?colorOnPrimary"
-                android:text="0:00"
                 android:background="@drawable/text_view_rounded_corner" />
 
 
@@ -87,6 +86,16 @@
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/countdown_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/ivory"
+            android:gravity="center"
+            android:textSize="100sp"
+            android:visibility="gone"
+            android:background="#80636363"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
