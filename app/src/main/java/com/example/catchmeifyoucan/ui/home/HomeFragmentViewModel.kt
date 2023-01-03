@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.catchmeifyoucan.ui.runs.RunsModel
 import com.example.catchmeifyoucan.ui.runs.RunsRepository
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -18,6 +19,18 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
     val runData: LiveData<RunsModel>
         get() = _runData
 
+    private val _locationList = MutableLiveData(mutableListOf<GeoLocation>())
+    val locationList: LiveData<MutableList<GeoLocation>>
+        get() = _locationList
+
+    var seconds = 0
+    var initialStepCount = -1
+
+    fun setTimestamp(timeStamp: String) {
+        _runData.value!!.timeStamp = timeStamp
+        _runData.postValue(runData.value)
+    }
+
     fun setStartLatLng(latLng: LatLng) {
         _runData.value!!.start_lat = latLng.latitude
         _runData.value!!.start_lng = latLng.longitude
@@ -30,9 +43,13 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
         _runData.postValue(runData.value)
     }
 
-    fun setRunTime(time: Int) {
-        _runData.value!!.time = time
+    fun setRunTime() {
+        _runData.value!!.time = seconds
         _runData.postValue(runData.value)
+    }
+
+    fun setRunLocationList() {
+        _runData.value!!.locationList = locationList.value!!
     }
 
     fun saveRun() {
@@ -46,5 +63,7 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
                 .subscribe()
         }
     }
+
+
 
 }

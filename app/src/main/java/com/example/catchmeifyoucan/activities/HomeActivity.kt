@@ -21,7 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
+class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -40,9 +40,13 @@ class HomeActivity : MainActivity(), OnNavigationItemSelectedListener {
             navController = findNavController(R.id.fragment_navigation_controller)
         }
 
-        subscribe()
         initView()
+        subscribe()
         setNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun subscribe() {

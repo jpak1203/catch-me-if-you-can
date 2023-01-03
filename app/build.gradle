@@ -68,6 +68,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.firebase:geofire-android:3.2.0'
 
     // Dagger 2
     // https://github.com/google/dagger
