@@ -5,10 +5,7 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentSender
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +22,7 @@ import com.example.catchmeifyoucan.databinding.FragmentHomeBinding
 import com.example.catchmeifyoucan.geofence.GeofenceBroadcastReceiver
 import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.ui.runs.RunsModel
+import com.example.catchmeifyoucan.utils.PermissionsUtil.approveActivityRecognition
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundAndBackgroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.runningQOrLater
@@ -77,11 +75,33 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        val result = permissions.entries.all {
+        permissions.entries.all {
+            when (it.key.replace("android.permission.", "")) {
+                "ACCESS_FINE_LOCATION" -> {
+                    if (it.value) {
+                        enableMyLocation()
+                    } else {
+                        Snackbar.make(
+                            requireView(),
+                            R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
+                        ).setAction(android.R.string.ok) {
+                            enableMyLocation()
+                        }.show()
+                    }
+                }
+                "ACTIVITY_RECOGNITION" -> {
+                    if (!it.value) {
+                        Snackbar.make(
+                            requireView(),
+                            R.string.activity_recognition_required_error, Snackbar.LENGTH_INDEFINITE
+                        ).setAction(android.R.string.ok) {
+                            requestActivityRecognitionPermissions()
+                        }.show()
+                    }
+                }
+            }
+            Timber.i(it.key + " ${it.value}")
             it.value
-        }
-        if (result) {
-            enableMyLocation()
         }
     }
 
@@ -148,7 +168,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             } else {
                 binding.motionLayout.setTransition(R.id.run_start, R.id.run_end).run {
                     binding.motionLayout.transitionToEnd()
-                    checkLocationPermissions()
+                    requestActivityRecognitionPermissions()
                     true
                 }
             }
@@ -287,6 +307,13 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         if (runningQOrLater) permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
 
         requestPermissionLauncher.launch(permissionsArray)
+    }
+
+    private fun requestActivityRecognitionPermissions() {
+        if (approveActivityRecognition(requireContext()))
+            return
+
+        requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION))
     }
 
     private fun startTimer() {

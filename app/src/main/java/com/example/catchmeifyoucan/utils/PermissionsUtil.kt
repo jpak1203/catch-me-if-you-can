@@ -33,4 +33,14 @@ object PermissionsUtil {
         return PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
                     context, Manifest.permission.ACCESS_FINE_LOCATION)
     }
+
+    @TargetApi(29)
+    fun approveActivityRecognition(context: Context): Boolean {
+        return if (runningQOrLater) {
+            PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+                context, Manifest.permission.ACTIVITY_RECOGNITION
+            )
+        }
+        else true
+    }
 }
