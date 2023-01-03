@@ -10,5 +10,6 @@ data class RunsModel(
     @field:Json(name = "end_lat") var end_lat: Double = 0.0,
     @field:Json(name = "end_lng") var end_lng: Double = 0.0,
     @field:Json(name = "time") var time: Int = 0,
-    @field:Json(name = "location_list") var locationList: MutableList<GeoLocation> = mutableListOf()
+    @field:Json(name = "location_list") var locationList: MutableList<GeoLocation> = mutableListOf(),
+    @field:Json(name = "step_count") var stepCount: Int = 0
 )

@@ -174,6 +174,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
                 binding.motionLayout.setTransition(R.id.record_end, R.id.record_start).run {
                     startRecording = false
                     stopTimer()
+                    getLocationList()
+                    getStepCount()
                     viewModel.setRunLocationList()
                     binding.motionLayout.transitionToStart()
                     getEndLocationLatLng()
@@ -372,13 +374,16 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        event.values.firstOrNull()?.let {
-            if (viewModel.initialStepCount == -1) {
-                viewModel.initialStepCount = it.toInt()
+        if (startRecording) {
+            event.values.firstOrNull()?.let {
+                viewModel.stepCount = it.toInt()
             }
-            val currentNumberOfStepCount = it.toInt() - viewModel.initialStepCount
-            Timber.i("Steps count: $currentNumberOfStepCount ")
         }
+    }
+
+    private fun getStepCount() {
+        viewModel.setStepCount()
+        viewModel.stepCount = 0
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -413,7 +418,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         )
     }
 
-    var polylineOptions = PolylineOptions()
+    private var polylineOptions = PolylineOptions()
     private fun addLocationToRoute(locations: List<Location>) {
         val originalLatLngList = polylineOptions.points
         val latLngList = locations.map {
@@ -425,5 +430,10 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
 
     private fun clearLocationToRoute() {
         map.clear()
+    }
+
+    private fun getLocationList() {
+        viewModel.setRunLocationList()
+        viewModel.resetRunLocationList()
     }
 }

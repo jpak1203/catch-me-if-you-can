@@ -24,7 +24,7 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
         get() = _locationList
 
     var seconds = 0
-    var initialStepCount = -1
+    var stepCount = 0
 
     fun setTimestamp(timeStamp: String) {
         _runData.value!!.timeStamp = timeStamp
@@ -50,6 +50,14 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
 
     fun setRunLocationList() {
         _runData.value!!.locationList = locationList.value!!
+    }
+
+    fun resetRunLocationList() {
+        _locationList.postValue(mutableListOf())
+    }
+
+    fun setStepCount() {
+        _runData.value!!.stepCount = stepCount
     }
 
     fun saveRun() {
