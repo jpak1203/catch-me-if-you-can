@@ -305,8 +305,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun addTimestamp() {
-        val tsLong = System.currentTimeMillis() / 1000
-        viewModel.setTimestamp(tsLong.toString())
+        val currentTimestamp = System.currentTimeMillis()
+        viewModel.setTimestamp(currentTimestamp.toString())
     }
 
 

@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.RunListItemBinding
-import java.util.*
+import com.example.catchmeifyoucan.utils.FormatUtil.getDate
+import com.example.catchmeifyoucan.utils.FormatUtil.getRunTime
 
 class RunsListAdapter(private val showRunDetails: (RunsModel) -> Unit)
     : ListAdapter<RunsModel, RecyclerView.ViewHolder>(RunsDifferCallback()) {
@@ -31,8 +32,8 @@ class RunsListAdapter(private val showRunDetails: (RunsModel) -> Unit)
     ) = getItem(position).let {
         (holder.itemView.tag as RunListItemBinding).apply {
             runItem = it
-            runTitle.text = String.format(holder.itemView.context.getString(R.string.run_time), getShortDate(it.timeStamp))
-            runTime.text = getRunTime(it.time)
+            runTitle.text = getDate(it.timeStamp)
+            runTime.text = String.format(holder.itemView.context.getString(R.string.run_time), getRunTime(it.time))
             stepCount.text = String.format(holder.itemView.context.getString(R.string.step_count), it.stepCount)
         }.executePendingBindings()
     }
@@ -46,24 +47,6 @@ class RunsListAdapter(private val showRunDetails: (RunsModel) -> Unit)
             return oldItem.id == newItem.id
         }
 
-    }
-
-    fun getShortDate(ts: String): String {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        calendar.timeInMillis = ts.toLong()
-        return android.text.format.DateFormat.format("E, dd MMM yyyy", calendar).toString()
-    }
-
-    fun getRunTime(seconds: Int): String {
-        val hours: Int = seconds / 3600
-        val minutes: Int = seconds % 3600 / 60
-        val secs: Int = seconds % 60
-
-        return java.lang.String.format(
-            Locale.getDefault(),
-            "%d:%02d:%02d", hours,
-            minutes, secs
-        )
     }
 
 }
