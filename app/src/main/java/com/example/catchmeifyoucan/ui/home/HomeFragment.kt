@@ -148,11 +148,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         (requireActivity() as HomeActivity).setUserEmail()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopTimer()
-    }
-
     private fun initView() {
         binding.runButton.setOnClickListener {
             runButtonMotionStarted = if (runButtonMotionStarted) {

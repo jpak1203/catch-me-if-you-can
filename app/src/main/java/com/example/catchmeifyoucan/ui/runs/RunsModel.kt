@@ -4,6 +4,7 @@ import com.firebase.geofire.GeoLocation
 import com.squareup.moshi.Json
 
 data class RunsModel(
+    @field:Json(name = "id") var id: String,
     @field:Json(name = "time_stamp") var timeStamp: String = "",
     @field:Json(name = "start_lat") var start_lat: Double = 0.0,
     @field:Json(name = "start_lng") var start_lng: Double = 0.0,

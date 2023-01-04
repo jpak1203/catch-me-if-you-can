@@ -8,6 +8,7 @@ import com.example.catchmeifyoucan.dagger.factory.ViewModelKey
 import com.example.catchmeifyoucan.ui.auth.LoginFragmentViewModel
 import com.example.catchmeifyoucan.ui.auth.SignupFragmentViewModel
 import com.example.catchmeifyoucan.ui.home.HomeFragmentViewModel
+import com.example.catchmeifyoucan.ui.runs.RunsFragmentViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -41,5 +42,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeFragmentViewModel::class)
     internal abstract fun homeFragmentViewModel(viewModel: HomeFragmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RunsFragmentViewModel::class)
+    internal abstract fun runsFragmentViewModel(viewModel: RunsFragmentViewModel): ViewModel
 
 }

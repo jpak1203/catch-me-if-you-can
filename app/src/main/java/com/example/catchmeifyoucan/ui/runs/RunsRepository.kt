@@ -19,4 +19,14 @@ class RunsRepository @Inject constructor(private val api: ApiService) {
         return api.saveUserRun(uid, id, value)
     }
 
+    fun getAllRuns(uid: String): Single<List<RunsModel>> {
+        return api.getAllUserRuns(uid).flatMap {
+            Single.just(it.values.toList())
+        }
+    }
+
+    fun getRun(uid: String, runId: String): Single<RunsModel> {
+        return api.getUserRun(uid, runId)
+    }
+
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class HomeFragmentViewModel @Inject constructor(private val runsRepository: RunsRepository): ViewModel() {
 
-    private val _runData = MutableLiveData(RunsModel())
+    private val _runData = MutableLiveData(RunsModel(id = UUID.randomUUID().toString()))
     val runData: LiveData<RunsModel>
         get() = _runData
 
@@ -63,9 +63,8 @@ class HomeFragmentViewModel @Inject constructor(private val runsRepository: Runs
     fun saveRun() {
         val user = FirebaseAuth.getInstance().currentUser
         val uid = user?.uid ?: ""
-        val runId: String = UUID.randomUUID().toString()
         runData.value?.let {
-            runsRepository.saveRun(uid, runId, it)
+            runsRepository.saveRun(uid, it.id, it)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe()

@@ -56,4 +56,6 @@
     <string name="save_run_message">Do you want to save this run?</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="run_time">Time: %1$s</string>
+    <string name="step_count">Steps: %1$s</string>
 </resources>
