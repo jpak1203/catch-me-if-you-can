@@ -58,4 +58,5 @@
     <string name="delete">Delete</string>
     <string name="run_time">Time: %1$s</string>
     <string name="step_count">Steps: %1$s</string>
+    <string name="run_details_title">Your Run on %1$s</string>
 </resources>

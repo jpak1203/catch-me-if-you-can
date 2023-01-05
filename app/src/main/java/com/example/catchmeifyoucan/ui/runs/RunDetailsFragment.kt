@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -28,11 +27,9 @@ import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_STEPS
 import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_TIME
 import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_TIMESTAMP
 import com.example.catchmeifyoucan.utils.FormatUtil
-import com.example.catchmeifyoucan.utils.GeofencingConstants.RUN_DATA
 import com.example.catchmeifyoucan.utils.PermissionsUtil
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundAndBackgroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.runningQOrLater
-import com.example.catchmeifyoucan.utils.createChannel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -133,7 +130,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        createChannel(requireContext())
+        GeofenceBroadcastReceiver().createChannel(requireContext())
 
         initView()
         subscribe()
@@ -263,39 +260,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
             .addGeofence(geofence)
             .build()
 
-        RUN_DATA.add(0, runDetails)
         geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
-
-        // First, remove any existing geofences that use our pending intent
-        geofencingClient.removeGeofences(geoPendingIntent).run {
-            // Regardless of success/failure of the removal, add the new geofence
-            addOnCompleteListener {
-                // Add the new geofence request with the new geofence
-                geofencingClient.addGeofences(geofencingRequest, geoPendingIntent).run {
-                    addOnSuccessListener {
-                        // Geofences added.
-                        Toast.makeText(
-                            requireContext(), R.string.geofences_added,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Timber.i(geofence.requestId)
-                        // Tell the viewmodel that we've reached the end of the game and
-                        // activated the last "geofence" --- by removing the Geofence.
-                        //                        viewModel.geofenceActivated()
-                    }
-                    addOnFailureListener {
-                        // Failed to add geofences.
-                        Toast.makeText(
-                            requireContext(), "NOT ADDED",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        if ((it.message != null)) {
-                            Timber.w(it.message)
-                        }
-                    }
-                }
-            }
-        }
     }
 
     @SuppressLint("MissingPermission")
@@ -316,7 +281,6 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
             .addGeofence(geofence)
             .build()
 
-        RUN_DATA.add(1, runDetails)
         geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
     }
 
