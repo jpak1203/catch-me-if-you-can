@@ -270,7 +270,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenc
     @SuppressLint("MissingPermission")
     private fun saveStartGeofence(runDetails: RunsModel) {
         startGeofence = Geofence.Builder()
-            .setRequestId(runDetails.id+"_start")
+            .setRequestId(runDetails.id + "_start")
             .setCircularRegion(
                 runDetails.start_lat,
                 runDetails.start_lng,
@@ -298,7 +298,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenc
     @SuppressLint("MissingPermission")
     private fun startFinishLineGeofence(runDetails: RunsModel) {
         endGeofence = Geofence.Builder()
-            .setRequestId(runDetails.id+"_end")
+            .setRequestId(runDetails.id + "_end")
             .setCircularRegion(
                 runDetails.end_lat,
                 runDetails.end_lng,
@@ -402,7 +402,9 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenc
             else if (raceTime == runTime) getString(R.string.tied_title)
             else getString(R.string.lost_title)
 
-        binding.motionLayout.transitionToStart()
+        binding.motionLayout.transitionToStart().run {
+            raceButtonMotionStarted = false
+        }
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(title)
