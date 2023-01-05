@@ -3,6 +3,7 @@ package com.example.catchmeifyoucan.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context.SENSOR_SERVICE
+import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -31,7 +32,11 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
 import java.lang.String.*
 import java.util.*
 import javax.inject.Inject
@@ -43,6 +48,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         private val TAG = HomeFragment::class.java.simpleName
         const val ACTION_GEOFENCE_EVENT = "ACTION_GEOFENCE_EVENT"
         private const val DEFAULT_ZOOM = 18f
+        private const val SNAPSHOT_ZOOM = 14f
     }
 
     @Inject
@@ -55,6 +61,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     private lateinit var map: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var mHandler: Handler
+    private lateinit var storageRef: StorageReference
 
     private var startRecording = false
     private var runButtonMotionStarted = false
@@ -120,7 +127,9 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        Timber.i("${requireActivity()}")
+        storageRef = FirebaseStorage.getInstance().reference
+
+
         initView()
         return binding.root
     }
@@ -342,13 +351,12 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun createRunData() {
-        clearLocationToRoute()
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.nice_run))
             .setMessage(getString(R.string.save_run_message))
             .setCancelable(false)
             .setPositiveButton(R.string.save) { _, _ ->
-                Timber.i("${viewModel.runData.value}")
+                createSnapshot()
                 viewModel.saveRun()
             }
             .setNegativeButton(R.string.delete) { dialog, _ ->
@@ -430,5 +438,30 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     private fun getLocationList() {
         viewModel.setRunLocationList()
         viewModel.resetRunLocationList()
+    }
+
+    private fun createSnapshot() {
+        map.moveCamera(CameraUpdateFactory.zoomTo(SNAPSHOT_ZOOM))
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        val runId = viewModel.runData.value!!.id
+        val runMapRef: StorageReference = storageRef.child("${uid}/runImages/${runId}.jpg")
+
+        val snapshotReadyCallback : GoogleMap.SnapshotReadyCallback = GoogleMap.SnapshotReadyCallback { selectedScreenShot ->
+            val baos = ByteArrayOutputStream()
+            selectedScreenShot?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            val uploadTask = runMapRef.putBytes(data)
+            uploadTask.addOnFailureListener {
+                Timber.e(it)
+            }.addOnSuccessListener {
+                clearLocationToRoute()
+            }
+        }
+        val onMapLoadedCallback : GoogleMap.OnMapLoadedCallback = GoogleMap.OnMapLoadedCallback {
+            map.snapshot(snapshotReadyCallback)
+        }
+        map.setOnMapLoadedCallback(onMapLoadedCallback)
+
     }
 }
