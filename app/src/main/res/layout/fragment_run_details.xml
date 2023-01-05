@@ -51,17 +51,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/race_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="18dp"
-            android:backgroundTint="?colorPrimary"
-            android:text="@string/race"
-            android:src="@drawable/ic_race"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motion_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="2dp"
+            app:layoutDescription="@xml/fragment_run_details_scene">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/race_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/record"
+                app:overlay="false"
+                android:background="@drawable/record_background"
+                android:shadowColor="@color/onyx"
+                android:src="@drawable/ic_race"
+                app:altSrc="@drawable/ic_stop" />
+
+            <TextView
+                android:id="@+id/record_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/start_race_message"
+                android:textColor="?colorOnPrimary"
+                android:background="@drawable/text_view_rounded_corner" />
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
 

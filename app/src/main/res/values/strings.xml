@@ -59,4 +59,11 @@
     <string name="run_time">Time: %1$s</string>
     <string name="step_count">Steps: %1$s</string>
     <string name="run_details_title">Your Run on %1$s</string>
+    <string name="run_details_fragment">Run Details Fragment</string>
+    <string name="won_title">You won!</string>
+    <string name="tied_title">Tied!</string>
+    <string name="lost_title">You lost..</string>
+    <string name="race_time_message">"You ran it in %1$s"</string>
+    <string name="good_race">Good Race</string>
+    <string name="start_race_message">Go to the Run Icon to start the race!</string>
 </resources>

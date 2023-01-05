@@ -6,9 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.content.SharedPreferences
+import android.content.SharedPreferences.*
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +32,7 @@ import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_STEPS
 import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_TIME
 import com.example.catchmeifyoucan.ui.runs.RunsFragment.Companion.RUN_TIMESTAMP
 import com.example.catchmeifyoucan.utils.FormatUtil
+import com.example.catchmeifyoucan.utils.FormatUtil.getRunTime
 import com.example.catchmeifyoucan.utils.PermissionsUtil
 import com.example.catchmeifyoucan.utils.PermissionsUtil.approveForegroundAndBackgroundLocation
 import com.example.catchmeifyoucan.utils.PermissionsUtil.runningQOrLater
@@ -41,21 +47,23 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 
-class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
+class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenceChangeListener {
 
     companion object {
         private val TAG = RunDetailsFragment::class.java.simpleName
         private const val DEFAULT_ZOOM = 15f
-        const val DEFAULT_GEOFENCE_RADIUS = 10f
+        const val DEFAULT_GEOFENCE_RADIUS = 25f
     }
 
     @Inject
@@ -67,6 +75,13 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var cancellationSource: CancellationTokenSource
     private lateinit var map: GoogleMap
     private lateinit var geofencingClient: GeofencingClient
+    private lateinit var mHandler: Handler
+    private lateinit var startGeofence: Geofence
+    private lateinit var endGeofence: Geofence
+    private lateinit var geoFencePref: SharedPreferences
+
+    private var raceButtonMotionStarted = false
+
 
     private val geoPendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
@@ -130,8 +145,6 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        GeofenceBroadcastReceiver().createChannel(requireContext())
-
         initView()
         subscribe()
         return binding.root
@@ -140,22 +153,34 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
     override fun onStart() {
         super.onStart()
         cancellationSource = CancellationTokenSource()
+        geoFencePref = requireActivity().getSharedPreferences("TriggerdExitedId", Context.MODE_PRIVATE)
+        geoFencePref.registerOnSharedPreferenceChangeListener(this)
+        mHandler = Handler(Looper.getMainLooper())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val runTimestamp = FormatUtil.getDate(arguments?.getString(RUN_TIMESTAMP) ?: "")
-        (requireActivity() as HomeActivity).showToolbar(
-            String.format(getString(R.string.run_details_title), runTimestamp))
+        (requireActivity() as HomeActivity).showToolbar(runTimestamp)
     }
 
     private fun initView() {
-        val runTime = FormatUtil.getRunTime(arguments?.getInt(RUN_TIME) ?: 0)
+        val runTime = getRunTime(arguments?.getInt(RUN_TIME) ?: 0)
         val runSteps = arguments?.getInt(RUN_STEPS)
         binding.runDetailsTime.text = runTime
         binding.runDetailsSteps.text = String.format(getString(R.string.step_count), runSteps)
         binding.raceButton.setOnClickListener {
-            checkLocationPermissions()
+            raceButtonMotionStarted = if (raceButtonMotionStarted) {
+                binding.motionLayout.transitionToStart().run {
+                    stopRace()
+                    false
+                }
+            } else {
+                binding.motionLayout.transitionToEnd().run {
+                    checkLocationPermissions()
+                    true
+                }
+            }
         }
     }
 
@@ -244,8 +269,8 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun saveStartGeofence(runDetails: RunsModel) {
-        val geofence = Geofence.Builder()
-            .setRequestId(runDetails.id)
+        startGeofence = Geofence.Builder()
+            .setRequestId(runDetails.id+"_start")
             .setCircularRegion(
                 runDetails.start_lat,
                 runDetails.start_lng,
@@ -257,16 +282,23 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
         val geofencingRequest = GeofencingRequest.Builder()
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
+            .addGeofence(startGeofence)
             .build()
 
-        geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
+        geofencingClient.addGeofences(geofencingRequest, geoPendingIntent).run {
+            addOnCompleteListener {
+                Timber.i("Added starting geofence")
+            }
+            addOnFailureListener {
+                Timber.e("Failed to add starting geofence")
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
-    private fun saveEndGeofence(runDetails: RunsModel) {
-        val geofence = Geofence.Builder()
-            .setRequestId(runDetails.id)
+    private fun startFinishLineGeofence(runDetails: RunsModel) {
+        endGeofence = Geofence.Builder()
+            .setRequestId(runDetails.id+"_end")
             .setCircularRegion(
                 runDetails.end_lat,
                 runDetails.end_lng,
@@ -278,10 +310,17 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
         val geofencingRequest = GeofencingRequest.Builder()
             .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
+            .addGeofence(endGeofence)
             .build()
 
-        geofencingClient.addGeofences(geofencingRequest, geoPendingIntent)
+        geofencingClient.addGeofences(geofencingRequest, geoPendingIntent).run {
+            addOnCompleteListener {
+                Timber.i("Added ending geofence")
+            }
+            addOnFailureListener {
+                Timber.e("Failed to add ending geofence")
+            }
+        }
     }
 
     private fun checkDeviceLocationSettings(resolve:Boolean = true) {
@@ -315,7 +354,6 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
                 saveStartGeofence(viewModel.runDetails.value!!)
-//                saveEndGeofence(viewModel.runDetails.value!!)
             }
         }
     }
@@ -333,4 +371,83 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback {
         geofencingClient.removeGeofences(geoPendingIntent)
     }
 
+    private fun startRace() {
+        geofencingClient.removeGeofences(geoPendingIntent).addOnCompleteListener {
+            startFinishLineGeofence(viewModel.runDetails.value!!)
+            object : CountDownTimer(3000, 1000) {
+
+                @SuppressLint("SetTextI18n")
+                override fun onTick(millisUntilFinished: Long) {
+                    binding.recordTime.text = ((millisUntilFinished + 1000) / 1000).toString()
+                }
+
+                override fun onFinish() {
+                    startTimer()
+                }
+            }.start()
+        }
+    }
+
+    private fun stopRace() {
+        stopTimer()
+        geofencingClient.removeGeofences(geoPendingIntent)
+    }
+
+    private fun endRace() {
+        stopRace()
+        val raceTime = viewModel.seconds
+        val runTime = viewModel.runDetails.value!!.time
+
+        val title = if (raceTime < runTime) getString(R.string.won_title)
+            else if (raceTime == runTime) getString(R.string.tied_title)
+            else getString(R.string.lost_title)
+
+        binding.motionLayout.transitionToStart()
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(String.format(getString(R.string.race_time_message), getRunTime(raceTime)))
+            .setNegativeButton(getString(R.string.good_race)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+
+        viewModel.seconds = 0
+        binding.recordTime.text = getString(R.string.start_race_message)
+    }
+
+    private fun startTimer() {
+        mHandler = Handler(Looper.getMainLooper())
+        mStatusChecker.run()
+    }
+
+    private fun stopTimer() {
+        mHandler.removeCallbacks(mStatusChecker)
+        geofencingClient.removeGeofences(geoPendingIntent)
+    }
+
+    private var mStatusChecker: Runnable = object : Runnable {
+        override fun run() {
+            try {
+                val hours: Int = viewModel.seconds / 3600
+                val minutes: Int = viewModel.seconds % 3600 / 60
+                val secs: Int = viewModel.seconds % 60
+
+                val time: String = java.lang.String.format(
+                    Locale.getDefault(),
+                    "%d:%02d:%02d", hours,
+                    minutes, secs
+                )
+                binding.recordTime.text = time
+                viewModel.seconds++
+            } finally {
+                mHandler.postDelayed(this, 1000)
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (geoFencePref.getString("geoFenceId", null)!!.contains("_start")) startRace()
+        else endRace()
+    }
 }

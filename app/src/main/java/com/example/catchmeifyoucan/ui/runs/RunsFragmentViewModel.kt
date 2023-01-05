@@ -17,6 +17,12 @@ class RunsFragmentViewModel @Inject constructor(private val runsRepository: Runs
     val runDetails: LiveData<RunsModel>
         get() = _runDetails
 
+    private val _runTime = MutableLiveData<Int>()
+    val runTime: LiveData<Int>
+        get() = _runTime
+
+    var seconds = 0
+
     fun getAllUserRuns(): Single<List<RunsModel>> {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         return runsRepository.getAllRuns(uid)
