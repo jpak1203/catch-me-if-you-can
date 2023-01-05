@@ -92,7 +92,7 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
                 navController.navigate(R.id.home_fragment)
             }
             R.id.navigation_drawer_runs -> {
-                navController.navigate(R.id.run_history_fragment)
+                navController.navigate(R.id.runs_fragment)
             }
             R.id.navigation_drawer_news -> {
                 navController.navigate(R.id.news_fragment)

@@ -59,19 +59,12 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var cancellationSource: CancellationTokenSource
     private lateinit var map: GoogleMap
-    private lateinit var geofencingClient: GeofencingClient
     private lateinit var mHandler: Handler
     private lateinit var storageRef: StorageReference
 
     private var startRecording = false
     private var runButtonMotionStarted = false
     private var recordButtonMotionStarted = false
-
-//    private val geoPendingIntent: PendingIntent by lazy {
-//        val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
-//        intent.action = ACTION_GEOFENCE_EVENT
-//        PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -119,7 +112,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         }
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        geofencingClient = LocationServices.getGeofencingClient(requireActivity())
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -209,7 +201,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         }
 
         binding.raceButton.setOnClickListener {
-            findNavController().navigate(R.id.run_history_fragment)
+            findNavController().navigate(R.id.runs_fragment)
         }
     }
 
@@ -254,60 +246,10 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         }
     }
 
-//    private fun checkDeviceLocationSettings(resolve:Boolean = true) {
-//        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 1000)
-//        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest.build())
-//        val settingsClient = LocationServices.getSettingsClient(requireContext())
-//        val locationSettingsResponseTask =
-//            settingsClient.checkLocationSettings(builder.build())
-//        locationSettingsResponseTask.addOnFailureListener { exception ->
-//            if (exception is ResolvableApiException && resolve){
-//                try {
-//                    val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution.intentSender).build()
-//                    registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-//                        if (result != null) {
-//                            Timber.i("${result.resultCode}")
-//                            checkDeviceLocationSettings(false)
-//                        }
-//                    }.launch(intentSenderRequest)
-//                } catch (e: IntentSender.SendIntentException) {
-//                    Timber.e("location settings resolution error: %s", e.cause)
-//                }
-//            } else {
-//                Snackbar.make(
-//                    requireView(),
-//                    R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
-//                ).setAction(android.R.string.ok) {
-//                    checkDeviceLocationSettings()
-//                }.show()
-//            }
-//        }
-//        locationSettingsResponseTask.addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                Timber.i("location settings response success")
-//            }
-//        }
-//    }
-
-//    private fun checkLocationPermissions() {
-//        if (approveForegroundAndBackgroundLocation(requireContext())) {
-//            checkDeviceLocationSettings()
-//        } else {
-//            requestForegroundAndBackgroundLocationPermissions()
-//        }
-//    }
-
-
     private fun requestForegroundLocationPermissions() {
         val permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
         requestPermissionLauncher.launch(permissionsArray)
     }
-
-//    private fun requestForegroundAndBackgroundLocationPermissions() {
-//        var permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-//        if (runningQOrLater) permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
-//        requestPermissionLauncher.launch(permissionsArray)
-//    }
 
     private fun requestActivityRecognitionPermissions() {
         requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION))

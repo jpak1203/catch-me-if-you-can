@@ -8,6 +8,7 @@ import com.example.catchmeifyoucan.ui.challenges.ChallengesFragment
 import com.example.catchmeifyoucan.ui.friends.FriendsFragment
 import com.example.catchmeifyoucan.ui.home.HomeFragment
 import com.example.catchmeifyoucan.ui.news.NewsFragment
+import com.example.catchmeifyoucan.ui.runs.RunDetailsFragment
 import com.example.catchmeifyoucan.ui.runs.RunsFragment
 import com.example.catchmeifyoucan.utils.PermissionsUtil
 import com.example.catchmeifyoucan.utils.ValidatorUtil
@@ -53,4 +54,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeRunsFragment(): RunsFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeRunDetailsFragment(): RunDetailsFragment
 }

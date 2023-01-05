@@ -44,6 +44,8 @@ class RunsListAdapter(private val showRunDetails: (RunsModel) -> Unit)
             Glide.with(binding.root)
                 .load(pathReference)
                 .into(binding.runMap)
+
+            binding.onClick = showRunDetails
         }
     }
 

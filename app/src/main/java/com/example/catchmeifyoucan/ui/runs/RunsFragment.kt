@@ -24,7 +24,10 @@ class RunsFragment : BaseFragment() {
 
     companion object {
         private val TAG = RunsFragment::class.java.simpleName
-        val RUN_ID = "run_id"
+        const val RUN_ID = "run_id"
+        const val RUN_TIMESTAMP = "run_timestamp"
+        const val RUN_TIME = "run_time"
+        const val RUN_STEPS = "run_steps"
     }
 
     @Inject
@@ -35,9 +38,11 @@ class RunsFragment : BaseFragment() {
 
     private val runsListAdapter by lazy {
         RunsListAdapter {
-            val args = bundleOf(RUN_ID to it.id)
-            //TODO: navigate to run details
-            findNavController().navigate(R.id.home_fragment)
+            val args = bundleOf(RUN_ID to it.id,
+                RUN_TIMESTAMP to it.timeStamp,
+                RUN_TIME to it.time,
+                RUN_STEPS to it.stepCount)
+            findNavController().navigate(R.id.run_details_fragment, args)
         }
     }
 

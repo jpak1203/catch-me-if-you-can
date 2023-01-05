@@ -17,7 +17,7 @@ interface ApiService {
         @Body email: UserModel
     ): Single<Unit>
 
-    @GET("/users/runs/{runId}.json")
+    @GET("/users/{uid}/runs/{runId}.json")
     fun getUserRun(
         @Path("uid") uid: String,
         @Path("runId") runId: String
