@@ -69,7 +69,7 @@
     <string name="good_race">Good Race</string>
     <string name="start_race_message">Go to the Run Icon to start the race!</string>
     <string name="update_account_name_fragment">Update Account Name Fragment</string>
-    <string name="update_account_picture_fragment">Update Account Picture Fragment</string>
+    <string name="change_password_fragment">Change Password Fragment</string>
     <string name="delete_account_fragment">Delete Account Fragment</string>
     <string name="name">Name</string>
     <string name="edit">Edit</string>
@@ -88,4 +88,6 @@
     <string name="change_name">Change you account name</string>
     <string name="first_name_hint">First Name</string>
     <string name="last_name_hint">Last Name</string>
+    <string name="empty_password">************</string>
+    <string name="change_password">Change Password</string>
 </resources>

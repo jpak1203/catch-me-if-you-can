@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import com.example.catchmeifyoucan.databinding.FragmentUpdateAccountNameBinding
 import com.example.catchmeifyoucan.ui.BaseFragment
 import com.example.catchmeifyoucan.utils.ValidatorUtil.setEditTextErrorState
 import dagger.android.support.AndroidSupportInjection
+import timber.log.Timber
 import javax.inject.Inject
 
 class UpdateAccountNameFragment: BaseFragment() {
@@ -60,9 +62,14 @@ class UpdateAccountNameFragment: BaseFragment() {
             viewModel.saveAttempted = true
             if (viewModel.validForm()) {
                 viewModel.saveName().addOnCompleteListener {
-                    viewModel.firstName = ""
-                    viewModel.lastName = ""
-                    findNavController().navigateUp()
+                    if (it.isSuccessful) {
+                        Toast.makeText(requireContext(), "Successfully changed name!", Toast.LENGTH_SHORT).show()
+                        viewModel.firstName = ""
+                        viewModel.lastName = ""
+                        findNavController().popBackStack()
+                    } else {
+                        Timber.e("Error changing user details")
+                    }
                 }
             }
             setFirstNameErrorState()

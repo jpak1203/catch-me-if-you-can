@@ -89,9 +89,9 @@
         android:label="@string/update_account_name_fragment" />
 
     <fragment
-        android:id="@+id/update_account_picture_fragment"
-        android:name="com.example.catchmeifyoucan.ui.account.UpdateAccountPictureFragment"
-        android:label="@string/update_account_picture_fragment" />
+        android:id="@+id/change_password_fragment"
+        android:name="com.example.catchmeifyoucan.ui.account.ChangePasswordFragment"
+        android:label="@string/change_password_fragment" />
 
     <fragment
         android:id="@+id/delete_account_fragment"

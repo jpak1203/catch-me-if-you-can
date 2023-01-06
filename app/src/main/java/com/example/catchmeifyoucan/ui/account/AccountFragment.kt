@@ -23,6 +23,7 @@ import com.example.catchmeifyoucan.ui.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.AndroidSupportInjection
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -132,6 +133,9 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.editButtonTextView.setOnClickListener {
             findNavController().navigate(R.id.update_account_name_fragment)
         }
+        binding.changePasswordTextView.setOnClickListener {
+            findNavController().navigate(R.id.change_password_fragment)
+        }
         binding.deleteAccountTextView.setOnClickListener {
             findNavController().navigate(R.id.delete_account_fragment)
         }
@@ -150,7 +154,8 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         viewModel.updateUser().addOnCompleteListener {
-            binding.swipeRefreshLayout.isRefreshing = false
+            if (it.isSuccessful) binding.swipeRefreshLayout.isRefreshing = false
+            else Timber.e("Error getting user info")
         }
     }
 
