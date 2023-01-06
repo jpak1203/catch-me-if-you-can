@@ -16,5 +16,9 @@ class UserRepository @Inject constructor(private val api: ApiService) {
         return api.createUser(uid, user)
     }
 
+    fun deleteUser(uid: String): Single<Unit> {
+        return api.deleteUser(uid)
+    }
+
 
 }

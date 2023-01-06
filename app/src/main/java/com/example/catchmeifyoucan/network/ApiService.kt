@@ -17,6 +17,11 @@ interface ApiService {
         @Body email: UserModel
     ): Single<Unit>
 
+    @DELETE("/users/{uid}.json")
+    fun deleteUser(
+        @Path("uid") uid: String
+    ): Single<Unit>
+
     @GET("/users/{uid}/runs/{runId}.json")
     fun getUserRun(
         @Path("uid") uid: String,

@@ -4,17 +4,19 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.catchmeifyoucan.ui.auth.UserRepository
 import com.example.catchmeifyoucan.utils.ValidatorUtil
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
+import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AccountFragmentViewModel @Inject constructor(): ViewModel() {
+class AccountFragmentViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel() {
 
     companion object {
         private val TAG = AccountFragmentViewModel::class.java.simpleName
@@ -68,8 +70,8 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
         return FirebaseAuth.getInstance().currentUser!!.updateProfile(builder.build())
     }
 
-    fun deleteUser() {
-        FirebaseAuth.getInstance().currentUser?.delete()
+    fun deleteUser(): Single<Unit> {
+        return userRepository.deleteUser(FirebaseAuth.getInstance().currentUser!!.uid)
     }
 
     fun updateUser(): Task<Void> {
@@ -90,8 +92,13 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
         uploadTask.addOnFailureListener {
             Timber.e(it)
         }.addOnSuccessListener {
-            Timber.i("Upload successful")
-            user.updateProfile(UserProfileChangeRequest.Builder().setPhotoUri(uri).build())
+            userProfileRef.downloadUrl.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    user.updateProfile(UserProfileChangeRequest.Builder().setPhotoUri(it.result).build())
+                } else {
+                    Timber.e(it.exception)
+                }
+            }
         }
     }
 

@@ -96,6 +96,15 @@
     <fragment
         android:id="@+id/delete_account_fragment"
         android:name="com.example.catchmeifyoucan.ui.account.DeleteAccountFragment"
-        android:label="@string/delete_account_fragment" />
+        android:label="@string/delete_account_fragment" >
+
+        <action
+            android:id="@+id/action_delete_account_fragment_to_startup_fragment"
+            app:destination="@id/startup_fragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navgraph"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
 </navigation>

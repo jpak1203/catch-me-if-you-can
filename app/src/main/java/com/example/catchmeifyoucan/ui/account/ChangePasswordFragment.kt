@@ -78,7 +78,7 @@ class ChangePasswordFragment: BaseFragment() {
                         Toast.makeText(requireContext(), getString(R.string.change_password_success), Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
-                    else Timber.e(getString(R.string.change_password_error))
+                    else Timber.e(it.exception)
                 }
             }
         }

@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.account.DeleteAccountFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/delete_account_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:padding="16dp"
+        android:background="@color/white">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/delete_account_title"
+            android:textColor="@color/black"
+            android:text="@string/delete_account_title"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:letterSpacing="0.2"
+            android:lineSpacingMultiplier="1.45"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/delete_account_bullet_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/delete_account_bullet_one"
+            app:layout_constraintTop_toBottomOf="@id/delete_account_title"/>
+
+        <TextView
+            android:id="@+id/delete_account_bullet_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/delete_account_bullet_two"
+            app:layout_constraintTop_toBottomOf="@id/delete_account_bullet_one"/>
+
+        <TextView
+            android:id="@+id/delete_account_bullet_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/delete_account_bullet_three"
+            app:layout_constraintTop_toBottomOf="@id/delete_account_bullet_two"/>
+
+        <TextView
+            android:id="@+id/delete_account_bullet_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/delete_account_bullet_four"
+            app:layout_constraintTop_toBottomOf="@id/delete_account_bullet_three"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_account_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/delete_account"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@id/delete_account_bullet_four" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

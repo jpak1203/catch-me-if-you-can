@@ -147,6 +147,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
 
         (requireActivity() as HomeActivity).title = getString(R.string.app_name)
         (requireActivity() as HomeActivity).setUserEmail()
+        (requireActivity() as HomeActivity).setUserProfilePic()
     }
 
     private fun initView() {

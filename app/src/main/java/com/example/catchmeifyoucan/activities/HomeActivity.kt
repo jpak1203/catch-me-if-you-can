@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.example.catchmeifyoucan.R
 import com.example.catchmeifyoucan.databinding.ActivityHomeBinding
 import com.firebase.ui.auth.AuthUI
@@ -57,12 +58,13 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
                 headerEmailTextView.text = ""
             }
         }
+
         viewModel.profilePic.observe(this) {
             val headerProfilePic = binding.navigationView.getHeaderView(0).findViewById<ImageView>(R.id.user_photo)
             if (it == null) {
-                headerProfilePic.setImageDrawable(getDrawable(R.drawable.ic_account))
+                Glide.with(this).load(getDrawable(R.drawable.ic_account)).into(headerProfilePic)
             } else {
-                headerProfilePic.setImageURI(it)
+                Glide.with(this).load(it).into(headerProfilePic)
             }
         }
     }
@@ -86,6 +88,9 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
 
     fun setUserEmail() {
         viewModel.setUserEmail()
+    }
+
+    fun setUserProfilePic() {
         viewModel.setUserProfilePic()
     }
 

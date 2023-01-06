@@ -86,7 +86,6 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private var latestTmpUri: Uri? = null
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -117,6 +116,11 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).showToolbar(getString(R.string.account))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as HomeActivity).setUserProfilePic()
     }
 
     private fun initView() {

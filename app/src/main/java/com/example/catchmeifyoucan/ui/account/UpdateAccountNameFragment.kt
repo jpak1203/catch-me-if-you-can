@@ -68,7 +68,7 @@ class UpdateAccountNameFragment: BaseFragment() {
                         viewModel.lastName = ""
                         findNavController().popBackStack()
                     } else {
-                        Timber.e(getString(R.string.change_name_error))
+                        Timber.e(it.exception)
                     }
                 }
             }

@@ -93,6 +93,12 @@
     <string name="error_getting_user_info">Error getting user info</string>
     <string name="change_password_success">Successfully changed password!</string>
     <string name="change_name_success">Successfully changed name!</string>
-    <string name="change_password_error">Failed to change password</string>
-    <string name="change_name_error">Failed to change name</string>
+    <string name="delete_account_title">Deleting account will do the following:</string>
+    <string name="delete_account_bullet_one">• Your account will be permanently deleted</string>
+    <string name="delete_account_bullet_two">• You will be logged out from all devices</string>
+    <string name="delete_account_bullet_three">• All data saved on this account will be deleted permanently</string>
+    <string name="delete_account_bullet_four">• For any additional questions please reach out to customer service</string>
+    <string name="delete_account_message">Are you sure you want to delete your account? This action cannot be undone.</string>
+    <string name="delete_account_success_title">Your Account Has Been Deleted</string>
+    <string name="delete_account_success_message">Thank you for using Catch Me If You Can</string>
 </resources>

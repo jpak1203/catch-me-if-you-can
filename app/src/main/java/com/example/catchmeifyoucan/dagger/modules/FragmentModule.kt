@@ -1,5 +1,6 @@
 package com.example.catchmeifyoucan.dagger.modules
 
+import com.example.catchmeifyoucan.ui.StartupFragment
 import com.example.catchmeifyoucan.ui.account.AccountFragment
 import com.example.catchmeifyoucan.ui.account.ChangePasswordFragment
 import com.example.catchmeifyoucan.ui.account.DeleteAccountFragment
@@ -30,6 +31,9 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributePermissionsUtil(): PermissionsUtil
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeStartupFragment(): StartupFragment
 
     @ContributesAndroidInjector
     internal abstract fun contributeHomeFragment(): HomeFragment
