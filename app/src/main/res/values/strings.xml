@@ -90,4 +90,9 @@
     <string name="last_name_hint">Last Name</string>
     <string name="empty_password">************</string>
     <string name="change_password">Change Password</string>
+    <string name="error_getting_user_info">Error getting user info</string>
+    <string name="change_password_success">Successfully changed password!</string>
+    <string name="change_name_success">Successfully changed name!</string>
+    <string name="change_password_error">Failed to change password</string>
+    <string name="change_name_error">Failed to change name</string>
 </resources>

@@ -63,12 +63,12 @@ class UpdateAccountNameFragment: BaseFragment() {
             if (viewModel.validForm()) {
                 viewModel.saveName().addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(requireContext(), "Successfully changed name!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.change_name_success), Toast.LENGTH_SHORT).show()
                         viewModel.firstName = ""
                         viewModel.lastName = ""
                         findNavController().popBackStack()
                     } else {
-                        Timber.e("Error changing user details")
+                        Timber.e(getString(R.string.change_name_error))
                     }
                 }
             }

@@ -75,10 +75,10 @@ class ChangePasswordFragment: BaseFragment() {
             } else {
                 viewModel.updatePassword().addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(requireContext(), "Successfully changed password!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.change_password_success), Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
-                    else Timber.e("Could not change password")
+                    else Timber.e(getString(R.string.change_password_error))
                 }
             }
         }

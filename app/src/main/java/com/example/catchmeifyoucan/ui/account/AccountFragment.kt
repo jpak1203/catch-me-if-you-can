@@ -155,7 +155,7 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onRefresh() {
         viewModel.updateUser().addOnCompleteListener {
             if (it.isSuccessful) binding.swipeRefreshLayout.isRefreshing = false
-            else Timber.e("Error getting user info")
+            else Timber.e(getString(R.string.error_getting_user_info))
         }
     }
 
