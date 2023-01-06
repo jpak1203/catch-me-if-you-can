@@ -84,4 +84,8 @@
     <string name="fine_location_permissions">ACCESS_FINE_LOCATION</string>
     <string name="recognition_permissions">ACTIVITY_RECOGNITION</string>
     <string name="background_location_permissions">ACCESS_BACKGROUND_LOCATION</string>
+    <string name="required_field">This is a required field</string>
+    <string name="change_name">Change you account name</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
 </resources>

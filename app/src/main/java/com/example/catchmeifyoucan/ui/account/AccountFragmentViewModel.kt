@@ -2,6 +2,7 @@ package com.example.catchmeifyoucan.ui.account
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
@@ -16,8 +17,8 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
         private val TAG = AccountFragmentViewModel::class.java.simpleName
     }
 
-    private var firstName = ""
-    private var lastName = ""
+    var firstName = ""
+    var lastName = ""
     var saveAttempted = false
 
     fun validForm(): Boolean {
@@ -25,10 +26,10 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
                 && lastName.isNotBlank()
     }
 
-    fun saveName() {
+    fun saveName(): Task<Void> {
         val builder = UserProfileChangeRequest.Builder()
         builder.displayName = "$firstName $lastName"
-        FirebaseAuth.getInstance().currentUser!!.updateProfile(builder.build())
+        return FirebaseAuth.getInstance().currentUser!!.updateProfile(builder.build())
     }
 
     fun deleteUser() {
