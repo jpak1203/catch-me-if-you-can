@@ -83,4 +83,19 @@
         android:name="com.example.catchmeifyoucan.ui.friends.FriendsFragment"
         android:label="@string/friends_fragment" />
 
+    <fragment
+        android:id="@+id/update_account_name_fragment"
+        android:name="com.example.catchmeifyoucan.ui.account.UpdateAccountNameFragment"
+        android:label="@string/update_account_name_fragment" />
+
+    <fragment
+        android:id="@+id/update_account_picture_fragment"
+        android:name="com.example.catchmeifyoucan.ui.account.UpdateAccountPictureFragment"
+        android:label="@string/update_account_picture_fragment" />
+
+    <fragment
+        android:id="@+id/delete_account_fragment"
+        android:name="com.example.catchmeifyoucan.ui.account.DeleteAccountFragment"
+        android:label="@string/delete_account_fragment" />
+
 </navigation>

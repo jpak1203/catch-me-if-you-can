@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -45,10 +46,6 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
         setNavigation()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun subscribe() {
         binding.navigationView.setNavigationItemSelectedListener(this)
         viewModel.email.observe(this) {
@@ -60,7 +57,16 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
                 headerEmailTextView.text = ""
             }
         }
+        viewModel.profilePic.observe(this) {
+            val headerProfilePic = binding.navigationView.getHeaderView(0).findViewById<ImageView>(R.id.user_photo)
+            if (it == null) {
+                headerProfilePic.setImageDrawable(getDrawable(R.drawable.ic_account))
+            } else {
+                headerProfilePic.setImageURI(it)
+            }
+        }
     }
+
 
     private fun initView() {
         navigationHeader = binding.navigationView.getHeaderView(0)
@@ -80,6 +86,7 @@ class HomeActivity : BaseActivity(), OnNavigationItemSelectedListener {
 
     fun setUserEmail() {
         viewModel.setUserEmail()
+        viewModel.setUserProfilePic()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

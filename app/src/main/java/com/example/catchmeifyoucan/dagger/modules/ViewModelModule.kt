@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.catchmeifyoucan.activities.HomeActivityViewModel
 import com.example.catchmeifyoucan.dagger.factory.ViewModelFactory
 import com.example.catchmeifyoucan.dagger.factory.ViewModelKey
+import com.example.catchmeifyoucan.ui.account.AccountFragmentViewModel
 import com.example.catchmeifyoucan.ui.auth.LoginFragmentViewModel
 import com.example.catchmeifyoucan.ui.auth.SignupFragmentViewModel
 import com.example.catchmeifyoucan.ui.home.HomeFragmentViewModel
@@ -47,5 +48,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RunsFragmentViewModel::class)
     internal abstract fun runsFragmentViewModel(viewModel: RunsFragmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountFragmentViewModel::class)
+    internal abstract fun accountFragmentViewModel(viewModel: AccountFragmentViewModel): ViewModel
 
 }

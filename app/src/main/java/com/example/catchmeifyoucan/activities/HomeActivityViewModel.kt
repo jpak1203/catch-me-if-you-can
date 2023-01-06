@@ -1,5 +1,6 @@
 package com.example.catchmeifyoucan.activities
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,10 @@ class HomeActivityViewModel @Inject constructor(): ViewModel() {
     val email: LiveData<String>
         get() = _email
 
+    private val _profilePic = MutableLiveData<Uri>()
+    val profilePic: LiveData<Uri>
+        get() = _profilePic
+
     fun setUserEmail() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -20,6 +25,11 @@ class HomeActivityViewModel @Inject constructor(): ViewModel() {
         } else {
             _email.postValue("")
         }
+    }
+
+    fun setUserProfilePic() {
+        val user = FirebaseAuth.getInstance().currentUser
+        _profilePic.postValue(user!!.photoUrl)
     }
 
     fun getNavigationStartDestination(): Int {

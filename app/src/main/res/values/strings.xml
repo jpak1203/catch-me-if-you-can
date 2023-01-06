@@ -43,6 +43,8 @@
     <string name="runs_fragment">Runs Fragment</string>
     <string name="run">Run</string>
     <string name="location_required_error">Location services must be enabled to use the app</string>
+    <string name="camera_required_error">Camera services is required to take a photo</string>
+    <string name="gallery_required_error">Gallery permissions is required to choose a photo</string>
     <string name="activity_recognition_required_error">Recognition must be enabled for step counter</string>
     <string name="permission_denied_explanation">You need to grant location permission in order to select the location.</string>
     <string name="settings">Settings</string>
@@ -66,4 +68,12 @@
     <string name="race_time_message">"You ran it in %1$s"</string>
     <string name="good_race">Good Race</string>
     <string name="start_race_message">Go to the Run Icon to start the race!</string>
+    <string name="update_account_name_fragment">Update Account Name Fragment</string>
+    <string name="update_account_picture_fragment">Update Account Picture Fragment</string>
+    <string name="delete_account_fragment">Delete Account Fragment</string>
+    <string name="name">Name</string>
+    <string name="edit">Edit</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="add">ADD</string>
+    <string name="please_add_name">Please add your name</string>
 </resources>
