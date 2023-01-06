@@ -36,10 +36,10 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
         FirebaseAuth.getInstance().currentUser?.delete()
     }
 
-    fun updateUser() {
+    fun updateUser(): Task<Void> {
         val builder = UserProfileChangeRequest.Builder()
         builder.displayName = FirebaseAuth.getInstance().currentUser!!.displayName
-        FirebaseAuth.getInstance().currentUser!!.updateProfile(builder.build())
+        return FirebaseAuth.getInstance().currentUser!!.updateProfile(builder.build())
     }
 
     fun setUserProfile(uri: Uri) {

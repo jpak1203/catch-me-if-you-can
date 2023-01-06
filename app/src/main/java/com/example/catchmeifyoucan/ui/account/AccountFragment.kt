@@ -118,11 +118,6 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         (requireActivity() as HomeActivity).showToolbar(getString(R.string.account))
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.updateUser()
-    }
-
     private fun initView() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user!!.photoUrl != null) {
@@ -154,7 +149,9 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun onRefresh() {
-        viewModel.updateUser()
+        viewModel.updateUser().addOnCompleteListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun requestCameraPermissions() {
