@@ -71,7 +71,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
     ) { permissions ->
         permissions.entries.all {
             when (it.key.replace("android.permission.", "")) {
-                "ACCESS_FINE_LOCATION" -> {
+                getString(R.string.fine_location_permissions) -> {
                     if (it.value) {
                         enableMyLocation()
                     } else {
@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
                         }.show()
                     }
                 }
-                "ACTIVITY_RECOGNITION" -> {
+                getString(R.string.recognition_permissions) -> {
                     if (it.value) {
                         setupStepCounterListener()
                     } else {

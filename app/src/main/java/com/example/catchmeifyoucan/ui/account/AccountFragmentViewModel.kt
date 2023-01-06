@@ -1,8 +1,6 @@
 package com.example.catchmeifyoucan.ui.account
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -21,10 +19,6 @@ class AccountFragmentViewModel @Inject constructor(): ViewModel() {
     private var firstName = ""
     private var lastName = ""
     var saveAttempted = false
-
-    private val _latestTmpUri = MutableLiveData<Uri>()
-    val latestTmpUri: LiveData<Uri>
-        get() = _latestTmpUri
 
     fun validForm(): Boolean {
         return firstName.isNotBlank()

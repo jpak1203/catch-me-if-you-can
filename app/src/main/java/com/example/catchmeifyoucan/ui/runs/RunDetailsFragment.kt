@@ -94,7 +94,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenc
     ) { permissions ->
         permissions.entries.all {
             when (it.key.replace("android.permission.", "")) {
-                "ACCESS_FINE_LOCATION" -> {
+                getString(R.string.fine_location_permissions) -> {
                     if (it.value) {
                         enableMyLocation()
                     } else {
@@ -106,7 +106,7 @@ class RunDetailsFragment : BaseFragment(), OnMapReadyCallback, OnSharedPreferenc
                         }.show()
                     }
                 }
-                "ACCESS_BACKGROUND_LOCATION" -> {
+                getString(R.string.background_location_permissions) -> {
                     if (it.value) {
                         checkLocationPermissions()
                     } else {

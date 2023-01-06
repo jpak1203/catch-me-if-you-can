@@ -76,4 +76,12 @@
     <string name="delete_account">Delete Account</string>
     <string name="add">ADD</string>
     <string name="please_add_name">Please add your name</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="pick_image_title">Pick Image From</string>
+    <string name="camera_permissions">CAMERA</string>
+    <string name="storage_permissions">WRITE_EXTERNAL_STORAGE</string>
+    <string name="fine_location_permissions">ACCESS_FINE_LOCATION</string>
+    <string name="recognition_permissions">ACTIVITY_RECOGNITION</string>
+    <string name="background_location_permissions">ACCESS_BACKGROUND_LOCATION</string>
 </resources>

@@ -22,9 +22,7 @@ import com.example.catchmeifyoucan.databinding.FragmentAccountBinding
 import com.example.catchmeifyoucan.ui.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
 import dagger.android.support.AndroidSupportInjection
-import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -40,7 +38,7 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     ) { permissions ->
         permissions.entries.all {
             when (it.key.replace("android.permission.", "")) {
-                "CAMERA" -> {
+                getString(R.string.camera_permissions) -> {
                     if (it.value) {
                         pickFromCamera()
                     } else {
@@ -52,7 +50,7 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
                         }.show()
                     }
                 }
-                "WRITE_EXTERNAL_STORAGE" -> {
+                getString(R.string.storage_permissions) -> {
                     if (it.value) {
                         pickFromGallery()
                     } else {
@@ -153,12 +151,6 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
             binding.nameField.text = getString(R.string.please_add_name)
             getString(R.string.add)
         }
-
-        viewModel.latestTmpUri.observe(viewLifecycleOwner) {
-            Timber.i("$it")
-            val storage = FirebaseStorage.getInstance().reference
-            val userProfileRef = storage.child("${user.uid}/profile.jpg")
-        }
     }
 
     override fun onRefresh() {
@@ -174,10 +166,10 @@ class AccountFragment: BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun showImagePicDialog() {
-        val options = arrayOf("Camera", "Gallery")
+        val options = arrayOf(getString(R.string.camera), getString(R.string.gallery))
         AlertDialog.Builder(requireContext())
-            .setTitle("Pick Image From")
-            .setItems(options) { _, which -> // if access is not given then we will request for permission
+            .setTitle(getString(R.string.pick_image_title))
+            .setItems(options) { _, which ->
                 if (which == 0) {
                     requestCameraPermissions()
                 } else if (which == 1) {

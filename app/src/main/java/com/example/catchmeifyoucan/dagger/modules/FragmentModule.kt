@@ -3,7 +3,6 @@ package com.example.catchmeifyoucan.dagger.modules
 import com.example.catchmeifyoucan.ui.account.AccountFragment
 import com.example.catchmeifyoucan.ui.account.DeleteAccountFragment
 import com.example.catchmeifyoucan.ui.account.UpdateAccountNameFragment
-import com.example.catchmeifyoucan.ui.account.UpdateAccountPictureFragment
 import com.example.catchmeifyoucan.ui.auth.ForgetPasswordFragment
 import com.example.catchmeifyoucan.ui.auth.LoginFragment
 import com.example.catchmeifyoucan.ui.auth.SignupFragment
@@ -63,9 +62,6 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeUpdateAccountNameFragment(): UpdateAccountNameFragment
-
-    @ContributesAndroidInjector
-    internal abstract fun contributeUpdateAccountPictureFragment(): UpdateAccountPictureFragment
 
     @ContributesAndroidInjector
     internal abstract fun contributeDeleteAccountFragment(): DeleteAccountFragment
