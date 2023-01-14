@@ -95,6 +95,10 @@ class SignupFragment : BaseFragment() {
                 createAccount(viewModel.email.value!!, viewModel.password.value!!)
             }
         }
+
+        binding.loginNavText.setOnClickListener {
+            findNavController().navigate(R.id.login_fragment)
+        }
     }
 
     private fun createAccount(email: String, password: String) {
