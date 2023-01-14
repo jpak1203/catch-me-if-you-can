@@ -171,9 +171,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
                 binding.motionLayout.setTransition(R.id.record_end, R.id.record_start).run {
                     startRecording = false
                     stopTimer()
-                    getLocationList()
                     getStepCount()
-                    viewModel.setRunLocationList()
                     binding.motionLayout.transitionToStart()
                     getEndLocationLatLng()
                     false
@@ -341,9 +339,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             locationResult.locations.forEach {
-                if (startRecording) {
-                    viewModel.locationList.value?.add(GeoLocation(it.latitude, it.longitude))
-                }
                 val latLng = LatLng(it.latitude, it.longitude)
                 val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM)
                 map.animateCamera(cameraUpdate)
@@ -376,11 +371,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, SensorEventListener {
 
     private fun clearLocationToRoute() {
         map.clear()
-    }
-
-    private fun getLocationList() {
-        viewModel.setRunLocationList()
-        viewModel.resetRunLocationList()
     }
 
     private fun createSnapshot() {

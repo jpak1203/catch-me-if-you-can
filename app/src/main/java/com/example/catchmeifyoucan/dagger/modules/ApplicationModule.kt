@@ -25,15 +25,4 @@ internal class ApplicationModule {
     fun providesContext(boxedApplication: MyApplication): Context {
         return boxedApplication.applicationContext
     }
-
-    @Singleton
-    @Provides
-    fun providesDatabase(app: Application): AppDatabase {
-        return Room
-            .databaseBuilder(
-                app.applicationContext, AppDatabase::class.java, "Runs-Database"
-            )
-            .fallbackToDestructiveMigration()
-            .build()
-    }
 }

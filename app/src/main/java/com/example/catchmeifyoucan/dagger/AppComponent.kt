@@ -1,6 +1,7 @@
 package com.example.catchmeifyoucan.dagger
 
 import android.app.Application
+import androidx.room.Dao
 import com.example.catchmeifyoucan.MyApplication
 import com.example.catchmeifyoucan.dagger.modules.*
 import dagger.BindsInstance
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
     ApplicationModule::class,
+    DaoModule::class,
     ActivityModule::class,
     FragmentModule::class,
     ViewModelModule::class,

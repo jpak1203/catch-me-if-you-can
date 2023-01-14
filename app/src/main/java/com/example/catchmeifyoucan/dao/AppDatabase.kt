@@ -1,55 +1,24 @@
 package com.example.catchmeifyoucan.dao
 
 import androidx.room.*
-
-@Entity(tableName = "runs")
-data class Runs(
-    @PrimaryKey val id: String,
-    @ColumnInfo(name = "start_lat") var start_lat: Double = 0.0,
-    @ColumnInfo(name = "start_lng") var start_lng: Double = 0.0,
-    @ColumnInfo(name = "end_lat") var end_lat: Double = 0.0,
-    @ColumnInfo(name = "end_lng") var end_lng: Double = 0.0,
-    @ColumnInfo(name ="time") val time: Double
-)
-
-@Entity(tableName = "users")
-data class Users(
-    @PrimaryKey val uid: String,
-    @ColumnInfo(name = "email") val email: String,
-)
+import com.example.catchmeifyoucan.ui.runs.RunsModel
 
 @Dao
 interface RunsDao {
-    @Query("SELECT * FROM runs")
-    fun getAll(): List<Runs>
+    @Query("SELECT * FROM runs WHERE uid IN (:uid)")
+    fun getAll(uid: String): List<RunsModel>
 
     @Query("SELECT * FROM runs WHERE id IN (:id)")
-    fun loadRunById(id: Int): Runs
+    fun loadRunById(id: String): RunsModel
 
-    @Insert
-    fun insertAll(vararg runs: Runs)
-
-    @Delete
-    fun delete(runs: Runs)
-}
-
-@Dao
-interface UsersDao {
-    @Query("SELECT * FROM users")
-    fun getAll(): List<Users>
-
-    @Query("SELECT * FROM users WHERE uid IN (:uid)")
-    fun loadUser(uid: String): Users
-
-    @Insert
-    fun insertAll(vararg users: Users)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveRun(vararg run: RunsModel)
 
     @Delete
-    fun delete(users: Users)
+    fun delete(run: RunsModel)
 }
 
-@Database( entities = [Runs::class, Users::class], version = 2)
+@Database( entities = [RunsModel::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun runsDao(): RunsDao
-    abstract fun usersDao(): UsersDao
 }

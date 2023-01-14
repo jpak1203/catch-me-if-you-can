@@ -1,5 +1,6 @@
 package com.example.catchmeifyoucan.ui.runs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -77,6 +78,7 @@ class RunsFragment : BaseFragment() {
         binding.runsRecyclerView.adapter = runsListAdapter
     }
 
+    @SuppressLint("CheckResult")
     private fun subscribe() {
         viewModel.getAllUserRuns()
             .observeOn(AndroidSchedulers.mainThread())
