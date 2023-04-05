@@ -2,9 +2,7 @@ package com.example.catchmeifyoucan.dagger.modules
 
 import android.app.Application
 import android.content.Context
-import androidx.room.Room
 import com.example.catchmeifyoucan.MyApplication
-import com.example.catchmeifyoucan.dao.AppDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,7 +20,7 @@ internal class ApplicationModule {
 
     @Singleton
     @Provides
-    fun providesContext(boxedApplication: MyApplication): Context {
-        return boxedApplication.applicationContext
+    fun providesContext(myApp: MyApplication): Context {
+        return myApp.applicationContext
     }
 }
